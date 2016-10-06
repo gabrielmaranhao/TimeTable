@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package timetable;
 
 /**
@@ -17,9 +12,10 @@ import java.util.ArrayList;
 
 public class LeituraCSV {
 
- 
-
-        String csvFile = "C:\\Users\\Aluno\\Downloads\\ag-informacoes.csv";
+        String csvFile = "C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv";
+        String csvResFile = "C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv";
+        
+        
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -37,13 +33,9 @@ public class LeituraCSV {
          ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
          
          ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
+               
         
-        
-        
-        
-        
-        
-public void Ler(){
+public void LerInfos(){
         try {
 
             br = new BufferedReader(new FileReader(csvFile));
@@ -115,10 +107,14 @@ public void Ler(){
                                      
                 }else if(flag == 6){
                        LerPROFESSOR(line);
-                       }
-
-
+                       }  
             }
+            
+            //retorna padrões de leitura
+             line = "";
+             br = null;
+             flag = 0;
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -136,6 +132,62 @@ public void Ler(){
 
     }
 
+public void LerRes(){
+     try {
+
+            br = new BufferedReader(new FileReader(csvResFile));
+            while ((line = br.readLine()) != null) {
+                
+                if(line.substring(0,2).equals("//")){
+                    flag = -1;
+                }
+                
+                if(line.equals("DISCIPLINA")){
+                    flag = 1;
+                    line = br.readLine();
+                    line = br.readLine();
+                }
+                else if(flag==1){
+                    LerResDISCIPLINA();
+                }
+                
+                if(line.equals("PROFESSOR")){
+                    flag = 2;
+                    line = br.readLine();
+                    line = br.readLine();
+                }
+                else if(flag==2){
+                    LerResPROFESSOR();
+                }
+                
+                   
+              
+                
+                
+                
+            }
+            
+            //retorna padrões de leitura
+             line = "";
+             br = null;
+             flag = 0;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+    
     private void LerTIMESLOT(String line) {
         
         TimeSlot ts;
@@ -211,6 +263,15 @@ public void Ler(){
         
 
     }
+    
+    private void LerResDISCIPLINA() {
+        
+    }
+
+    private void LerResPROFESSOR() {
+        
+    }
+    
     public void Escrever(){
     //metodo teste
         
@@ -230,5 +291,5 @@ public void Ler(){
        
         
     }
-    
+ 
 }
