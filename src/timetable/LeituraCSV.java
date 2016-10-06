@@ -19,7 +19,7 @@ public class LeituraCSV {
 
  
 
-        String csvFile = "C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv";
+        String csvFile = "C:\\Users\\Aluno\\Downloads\\ag-informacoes.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
@@ -48,73 +48,74 @@ public void Ler(){
 
             br = new BufferedReader(new FileReader(csvFile));
             while ((line = br.readLine()) != null) {
-
+                   
                 // use comma as separator
                 //String[] country = line.split(cvsSplitBy);
                 
-                if(line.equals("//")){
+                if(line.substring(0,2).equals("//")){
                     flag = -1;
                 }
                 
                 if(line.equals("TIMESLOT")){
                     flag = 1;
                     line = br.readLine();
+                    line = br.readLine();
                     
-                    
-                    if(flag == 1){
+                   // LerTIMESLOT(line);
+
+                }
+                
+                else  if(flag == 1){
                         LerTIMESLOT(line);
                     }
-                    
-                    
-                }
+                
                 if(line.equals("CURSO")){
                     flag = 2;
                     line = br.readLine();
-                    
-                    if(flag == 2){
+                    line = br.readLine();
+                         
+                }else if(flag == 2){
                        LerCURSO(line);
                     }
-                                       
-                }
                 
                 if(line.equals("SALA")){
                     flag = 3;
                     line = br.readLine();
-                    
-                    if(flag == 3){
+                     line = br.readLine();
+                     
+                }else if(flag == 3){
                        LerSALA(line);
                     }
-                                       
-                }
+ 
                 if(line.equals("DISCIPLINA")){
                     flag = 4;
                     line = br.readLine();
+                     line = br.readLine();
                     
-                    if(flag == 4){
+                                                    
+                }else if(flag == 4){
                         
-                       LerDISCIPLINA(line);
-                    }
-                                       
+                  LerDISCIPLINA(line);
                 }
+                
+                
                 if(line.equals("ESTUDANTE")){
                     flag = 5;
                     line = br.readLine();
-                    
-                    if(flag == 5){
+                    line = br.readLine();
+                                                     
+                }else if(flag == 5){
                        LerESTUDANTE(line);  
                     }
-                                       
-                }
+                
                 if(line.equals("PROFESSOR")){
                     flag = 6;
                     line = br.readLine();
-                    
-                    if(flag == 6){
+                    line = br.readLine();
+                                     
+                }else if(flag == 6){
                        LerPROFESSOR(line);
                        }
-                    
-                                       
-                }
 
 
             }
@@ -147,11 +148,13 @@ public void Ler(){
     private void LerCURSO(String line) {
     
         Curso cs;
-        String [] aux = line.split(cvsSplitBy);  
-        cs = new Curso(Integer.parseInt(aux[0]), aux[1], Integer.parseInt(aux[2]), Integer.parseInt(aux[3]));
+        String [] aux = line.split(cvsSplitBy);
+        
+       // System.out.println(aux[2]);
+        
+        cs = new Curso(Integer.parseInt(aux[0]), aux[1], Integer.parseInt(aux[2].trim()), Integer.parseInt(aux[3].trim()));
         CURSO.add(cs);
         
-
     }
 
     private void LerSALA(String line) {
@@ -208,13 +211,15 @@ public void Ler(){
         
 
     }
-    void Escrever(){
+    public void Escrever(){
     //metodo teste
+        
+        int i = 0;
     
-        for(int i = 0;i < TIMESLOT.size();i++){
+        for( TimeSlot ts : TIMESLOT){
             
             System.out.println("Gravou: "+TIMESLOT.get(i).cod+","+TIMESLOT.get(i).dia+","+TIMESLOT.get(i).horaInicio+","+TIMESLOT.get(i).horaFinal);
-            
+            i++;
         }
         
         //(int i = 0;i < (CURSO.size()+SALA.size()+DISCIPLINA.size()+ESTUDANTE.size()+PROFESSOR.size());i++){
