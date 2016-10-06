@@ -7,7 +7,7 @@ package timetable;
 
 /**
  *
- * @author Gabriel
+ * @author Gabriel M, Gabriel O., Danillo, Marcos
  */
 public class TimeSlot {
     
