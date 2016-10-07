@@ -9,11 +9,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LeituraCSV {
 
-        String csvFile = "C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv";
-        String csvResFile = "C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv";
+        //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
+        //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
+        String csvFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-informacoes.csv";
+        String csvResFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-restricoes.csv";
         
         
         BufferedReader br = null;
@@ -33,6 +36,12 @@ public class LeituraCSV {
          ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
          
          ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
+         
+         //arraylist para armazenar as restrições
+         
+         ArrayList<Restricoes> RESTRICAOPROF = new ArrayList<Restricoes>();
+         
+         ArrayList<Restricoes> RESTRICAODISC = new ArrayList<Restricoes>();
                
         
 public void LerInfos(){
@@ -145,7 +154,7 @@ public void LerRes(){
                 if(line.equals("DISCIPLINA")){
                     flag = 1;
                     line = br.readLine();
-                    line = br.readLine();
+                    //line = br.readLine();
                 }
                 else if(flag==1){
                     LerResDISCIPLINA();
@@ -265,17 +274,40 @@ public void LerRes(){
     }
     
     private void LerResDISCIPLINA() {
-        
+        //lê as restrições para Disciplinas
+        Restricoes restr;
+        int[] aux1 = new int[30];
+        String[] aux = line.split(cvsSplitBy);
+        //após adicionar cada valor separado por virgula em um array, adiciona somente a partir do segundo no array aux1
+        //que representa as restrições
+        for(int i=1; i<aux.length;i++){
+            aux1[i-1] = Integer.parseInt(aux[i]);
+        }
+        // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
+        restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
+        RESTRICAODISC.add(restr);
     }
 
     private void LerResPROFESSOR() {
-        
+        //lê as restrições para professores
+        Restricoes restr;
+        int[] aux1 = new int[30];
+        String[] aux = line.split(cvsSplitBy);
+        //mesmo processo utilizado em LerResDisciplina()
+        for(int i=1; i<aux.length;i++){
+            aux1[i-1] = Integer.parseInt(aux[i]);
+        }
+        // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
+        restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
+        RESTRICAOPROF.add(restr);
     }
     
     public void Escrever(){
     //metodo teste
         
         int i = 0;
+        int j = 0;
+        int k = 0;
     
         for( TimeSlot ts : TIMESLOT){
             
@@ -283,12 +315,25 @@ public void LerRes(){
             i++;
         }
         
+        
         //(int i = 0;i < (CURSO.size()+SALA.size()+DISCIPLINA.size()+ESTUDANTE.size()+PROFESSOR.size());i++){
             
            // System.out.println("");
             
         //}
-       
+        
+     //printar as restrições
+     //Arrays.toString() ---> metodo que printa todos os elementos de uma array
+        for(Restricoes res : RESTRICAODISC){
+            int p = res.slotsObrig.length;
+            System.out.println("RestrDisc: "+RESTRICAODISC.get(j).codigoDisc+", "+Arrays.toString(RESTRICAODISC.get(j).slotsObrig));
+            j++;
+        }
+        for(Restricoes res : RESTRICAOPROF){
+            System.out.println("RestrProf: "+RESTRICAOPROF.get(k).codigoProf+", "+Arrays.toString(RESTRICAOPROF.get(k).slotsIndisp));
+            k++;
+        }
+        
         
     }
  
