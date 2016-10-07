@@ -20,6 +20,7 @@ public class TimeTable {
         LeituraCSV leitura = new LeituraCSV();
         
         leitura.LerInfos();
+        leitura.LerRes();
         leitura.Escrever();
         
         
