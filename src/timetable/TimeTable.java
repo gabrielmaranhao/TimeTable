@@ -23,6 +23,9 @@ public class TimeTable {
         leitura.LerRes();
         leitura.Escrever();
         
+        Cromossomo cr = new Cromossomo();
+        cr.GerarSlotsRandom();
+        
         
     }
     
