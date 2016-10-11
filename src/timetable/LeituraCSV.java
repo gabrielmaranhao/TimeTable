@@ -15,8 +15,8 @@ public class LeituraCSV {
 
         //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
         //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
-        String csvFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-informacoes.csv";
-        String csvResFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-restricoes.csv";
+        String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
+        String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
         
         
         BufferedReader br = null;
@@ -52,6 +52,10 @@ public void LerInfos(){
                    
                 // use comma as separator
                 //String[] country = line.split(cvsSplitBy);
+                
+                //Ignora as linhas vazias
+                if(line.trim().isEmpty()){}
+                else{
                 
                 if(line.substring(0,2).equals("//")){
                     flag = -1;
@@ -116,7 +120,8 @@ public void LerInfos(){
                                      
                 }else if(flag == 6){
                        LerPROFESSOR(line);
-                       }  
+                       }
+                }
             }
             
             //retorna padrões de leitura
@@ -146,6 +151,10 @@ public void LerRes(){
 
             br = new BufferedReader(new FileReader(csvResFile));
             while ((line = br.readLine()) != null) {
+              
+                //Ignora as linhas vazias
+                if(line.trim().isEmpty()){}
+                else{
                 
                 if(line.substring(0,2).equals("//")){
                     flag = -1;
@@ -173,7 +182,7 @@ public void LerRes(){
               
                 
                 
-                
+                }
             }
             
             //retorna padrões de leitura
