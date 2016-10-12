@@ -75,19 +75,7 @@ public class Cromossomo {
 //    }    //metodo para gerar uma lista de disciplinas randomicamente
 //    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
 //        ArrayList<Disciplina> 
-//        
-//    }
-        //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }
-        //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }
-    
+
     
     //metodo teste para printar a lista randomica
     public void printaLista(ArrayList<Integer> slots){
