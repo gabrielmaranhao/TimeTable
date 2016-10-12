@@ -15,8 +15,8 @@ public class LeituraCSV {
 
         //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
         //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
-        String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
-        String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
+        String csvFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-informacoes.csv";
+        String csvResFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-restricoes.csv";
         
         
         BufferedReader br = null;
