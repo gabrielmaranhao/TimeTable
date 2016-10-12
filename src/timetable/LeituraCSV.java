@@ -3,6 +3,7 @@ package timetable;
 /**
  *
  * @author Gabriel
+ * tetse gabriel maranhao
  */
  import java.io.BufferedReader;
 import java.io.FileNotFoundException;
