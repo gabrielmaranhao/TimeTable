@@ -40,12 +40,12 @@ public class Cromossomo {
             while(slots.size()<75){
                 int num = randomGenerator.nextInt(170)+1; //+1 pois começa do 0
                 //"range" de numeros disponíveis
-                if ((num <= 32 && num <= 36) || (num <= 38 && num <= 46)
-                        || (num <= 56 && num <= 60) || (num <= 62 && num <= 70)
-                        || (num <= 80 && num <= 84) || (num <= 86 && num <= 94)
-                        || (num <= 104 && num <= 108) || (num <= 110 && num <= 118)
-                        || (num <= 128 && num <= 132) || (num <= 134 && num <= 142)
-                        || (num <= 152 && num <= 156))
+                if ((num >= 32 && num <= 36) || (num >= 38 && num <= 46)
+                        || (num >= 56 && num <= 60) || (num >= 62 && num <= 70)
+                        || (num >= 80 && num <= 84) || (num >= 86 && num <= 94)
+                        || (num >= 104 && num <= 108) || (num >= 110 && num <= 118)
+                        || (num >= 128 && num <= 132) || (num >= 134 && num <= 142)
+                        || (num >= 152 && num <= 156))
                 {
                     //verificando se não há números repetidos na lista
                     if(slots.isEmpty()){
@@ -67,6 +67,28 @@ public class Cromossomo {
         printaLista(slots);
         return slots;
     }
+    
+    //metodo para gerar uma lista de disciplinas randomicamente
+//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
+//        ArrayList<Disciplina> 
+//        
+//    }    //metodo para gerar uma lista de disciplinas randomicamente
+//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
+//        ArrayList<Disciplina> 
+//        
+//    }
+        //metodo para gerar uma lista de disciplinas randomicamente
+//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
+//        ArrayList<Disciplina> 
+//        
+//    }
+        //metodo para gerar uma lista de disciplinas randomicamente
+//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
+//        ArrayList<Disciplina> 
+//        
+//    }
+    
+    
     //metodo teste para printar a lista randomica
     public void printaLista(ArrayList<Integer> slots){
         int j = 0;
