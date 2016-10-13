@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VizualizacaoHorario extends javax.swing.JFrame {
     
     JLabel lab= new JLabel();
-    MenuArquivo menuArquivo = new MenuArquivo();
+    
     
     
     BufferedReader br = null;
@@ -274,47 +274,41 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemEC4ActionPerformed
 
     private void jMenuItemUparAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUparAnexoActionPerformed
-        //setContentPane(menuArquivo);
-        //menuArquivo.setVisible(true);
-       // validate();
+
         
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");  //Cria um filtro  
          chooser.setFileFilter(filter);  //Altera o filtro do JFileChooser 
          
          int returnVal = chooser.showOpenDialog(this);// abre a janela do filechose neste panel
-        if(returnVal == JFileChooser.APPROVE_OPTION) {       
-        
-                System.out.println("You chose to open this file: " +
-                chooser.getSelectedFile().getName());
+         if(returnVal == JFileChooser.APPROVE_OPTION) {       
+         JOptionPane.showMessageDialog(null, "O Arquivo selecionado foi:\n"+chooser.getSelectedFile().getName(), "", JOptionPane.INFORMATION_MESSAGE);
+          
+         try {
                 
-                JOptionPane.showMessageDialog(null, "O Arquivo selecionado foi:\n"+chooser.getSelectedFile().getName(), "", JOptionPane.INFORMATION_MESSAGE);
-                
-                 try {
-                
-                br = new BufferedReader(new FileReader(chooser.getSelectedFile()));
-                while ((line = br.readLine()) != null) {
+             br = new BufferedReader(new FileReader(chooser.getSelectedFile()));
+             while ((line = br.readLine()) != null) {
                     
                     String[] aux = line.split(cvsSplitBy);
-                    System.out.println(line);
-                        }
+                    //System.out.println(line);
+                    }
                 
                 
-                }catch(FileNotFoundException e) {
-                    e.printStackTrace();
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                                } finally {
+         }catch(FileNotFoundException e) {
+                   e.printStackTrace();
+         }catch (IOException e) {
+                   e.printStackTrace();
+                                 } 
+         finally {
                 if (br != null) {
-                try {
-                    br.close();
-                }catch(IOException e) {
+                    try {
+                        br.close();
+                    }
+                    catch(IOException e) {
                     e.printStackTrace();
+                    }
                 }
-            }
-        }
-    
-        
+        }  
         }
     }//GEN-LAST:event_jMenuItemUparAnexoActionPerformed
 
