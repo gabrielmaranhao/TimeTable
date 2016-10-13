@@ -15,10 +15,10 @@ import java.util.Arrays;
 
 public class LeituraCSV {
 
-        String csvFile = "C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv";
-        String csvResFile = "C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv";
-        //String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
-        //String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
+        //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
+        //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
+        String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
+        String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
         
         
         BufferedReader br = null;
