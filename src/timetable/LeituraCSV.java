@@ -15,8 +15,8 @@ import java.util.Arrays;
 
 public class LeituraCSV {
 
-        //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
-        //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
+        //String csvResFile ="C:\Users\Gabriel\Documents\NetBeansProjects\TimeTable\src\files\ag-restricoes.csv";
+        //String csvFile = "C:\Users\Gabriel\Documents\NetBeansProjects\TimeTable\src\files\ag-informacoes.csv";
         String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
         String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
         
