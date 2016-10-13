@@ -1,6 +1,7 @@
 package timetable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,18 +13,94 @@ import java.util.Random;
  *
  * @author Danillo, Marcos, Gabriel M., Gabriel O.
  */
-public class Cromossomo {
+public class Cromossomo{
 
     //nesta classe criamos um indivíduo para aplicar função de fitness.
-
-    public Cromossomo() {
-    }
-    //
+    
+    //variaveis ----
+    ArrayList<Disciplina> disciplinas;
+    ArrayList<Estudante> estudantes;
+    ArrayList<Professor> professores;
+    ArrayList<SalaAula> salaaulas;
+    ArrayList<Restricoes> restricoes;
+    ArrayList<TimeSlot> timeslots;
+    ArrayList<ArrayList<AcidoNucleico>> cromossomo;
+    
     Random randomGenerator = new Random();
+    ArrayList<String> output;
 
+    
+    public Cromossomo(ArrayList<Disciplina> disciplinas, ArrayList<Estudante> estudantes, ArrayList<TimeSlot> timeslots,
+                        ArrayList<Professor> professores, ArrayList<SalaAula> salaaulas, ArrayList<Restricoes> restricoes) {
+        
+        this.disciplinas = disciplinas;
+        this.estudantes = estudantes;
+        this.professores = professores;
+        this.salaaulas = salaaulas;
+        this.restricoes = restricoes;
+        this.timeslots = timeslots;
+        
+        //popular lista
+        for(int i = 0; i <75; i++){
+            for(int j = 0 ; j < salaaulas.size(); j++){
+                cromossomo.set()
+            }
+        }
+        
+    }
+    
+   
+    
     public void GerarIndividuo() {
-
-        ArrayList<Integer> slots = new ArrayList<Integer>();
+        
+        int cont=0;
+        Disciplina disc;
+        ArrayList<TimeSlot> var;
+        ArrayList<Integer> timeslot = GerarSlotsRandom();
+        ArrayList<ArrayList<AcidoNucleico>> cromossomo = new ArrayList<ArrayList<AcidoNucleico>>();
+        //randomizar as disciplinas
+        Collections.shuffle(disciplinas);
+        while(true){
+            int curso;
+            int periodo;
+            int codD;
+            
+            
+            disc = disciplinas.get(cont);
+            codD = disc.codD;
+            curso = disc.codC;
+            periodo = disc.codP;
+            
+            //armazena os slots nos quais a disciplina pode ser dada, caso houver restrição.
+            int slotsObrig[] = new int[30];
+            
+            //criar uma lista que associa o periodo e o curso
+            //essa disciplina possui restrição? 
+            for( Restricoes r : restricoes){
+                if(r.restricaoTipo == 2){ //restricao para disciplina
+                    if(codD == r.codigoDisc){
+                        slotsObrig = r.slotsObrig;
+                    }
+                }
+            }
+            //selecionar timeslots necessários para a disciplina;
+            int h_p, h_t;
+            h_p = disc.cargaH_P;
+            h_t = disc.cargaH_T;
+            
+            if(h_p!=0){
+                if(slotsObrig.length == 0){
+                   for(ArrayList<AcidoNucleico> an : cromossomo){
+                   
+                   }
+                }else{
+                    
+                }
+            }
+            
+            
+        
+        }
         
     }
     //TIMESLOTS DISPONÍVEIS 
@@ -68,25 +145,7 @@ public class Cromossomo {
         return slots;
     }
     
-    //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }    //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }
-        //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }
-        //metodo para gerar uma lista de disciplinas randomicamente
-//    public ArrayList<Disciplina> GerarDisciplinaRandom(ArrayList<Disciplina> lista){
-//        ArrayList<Disciplina> 
-//        
-//    }
+    
     
     
     //metodo teste para printar a lista randomica
