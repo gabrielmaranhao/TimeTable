@@ -25,7 +25,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VizualizacaoHorario extends javax.swing.JFrame {
     
     JLabel lab= new JLabel();
-    JFileChooser chooser = new JFileChooser();
+    String userhome = System.getProperty("user.home");
+    JFileChooser chooser = new JFileChooser(userhome +"\\Documents\\NetBeansProjects\\TimeTable\\src\\files");
+  
     
     
     
@@ -289,7 +291,8 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         
         
          while(true){
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");  //Cria um filtro  
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");  //Cria um filtro
+        
          chooser.setFileFilter(filter);  //Altera o filtro do JFileChooser 
          
          int returnVal = chooser.showOpenDialog(this);// abre a janela do filechose neste panel
