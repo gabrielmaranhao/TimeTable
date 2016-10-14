@@ -15,10 +15,10 @@ import java.util.Arrays;
 
 public class LeituraCSV {
 
-        //String csvResFile ="C:\Users\Gabriel\Documents\NetBeansProjects\TimeTable\src\files\ag-restricoes.csv";
-        //String csvFile = "C:\Users\Gabriel\Documents\NetBeansProjects\TimeTable\src\files\ag-informacoes.csv";
-        String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
-        String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
+        String csvResFile = "C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-restricoes.csv";
+        String csvFile = "C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-informacoes.csv";
+        //String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
+        //String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
         
         
         BufferedReader br = null;
@@ -27,17 +27,17 @@ public class LeituraCSV {
         int flag;
         
         
-         ArrayList<TimeSlot> TIMESLOT = new ArrayList<TimeSlot>();
+         public static ArrayList<TimeSlot> TIMESLOT = new ArrayList<TimeSlot>();
          
-         ArrayList<Curso> CURSO = new ArrayList<Curso>();
+         public static ArrayList<Curso> CURSO = new ArrayList<Curso>();
          
-         ArrayList<SalaAula> SALA = new ArrayList<SalaAula>();
+         public static ArrayList<SalaAula> SALA = new ArrayList<SalaAula>();
          
-         ArrayList<Disciplina> DISCIPLINA = new ArrayList<Disciplina>();
+         public static ArrayList<Disciplina> DISCIPLINA = new ArrayList<Disciplina>();
          
-         ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
+         public static ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
          
-         ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
+         public static ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
          
          //arraylist para armazenar as restrições
          
