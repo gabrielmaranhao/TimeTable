@@ -65,8 +65,8 @@ public class Cromossomo{
         int cont=0;
         Disciplina disc;
         ArrayList<TimeSlot> var;
-
-        ArrayList<ArrayList<AcidoNucleico>> cromossomo = new ArrayList<ArrayList<AcidoNucleico>>();
+        ArrayList<Integer> timeslotDisp;
+        
         //randomizar as disciplinas
         Collections.shuffle(disciplinas);
         while(true){
@@ -82,27 +82,20 @@ public class Cromossomo{
             periodo = disc.codP;
             ArrayList<Integer> timeslot = GerarSlotsCurso(disc.codC);
              
-            //armazena os slots nos quais a disciplina pode ser dada, caso houver restrição.
-            int slotsObrig[] = new int[30];
+            timeslotDisp = GerarRestDisc(codD);
             
-            //criar uma lista que associa o periodo e o curso
-            //essa disciplina possui restrição? 
-            for( Restricoes r : restricoes){
-                if(r.restricaoTipo == 2){ //restricao para disciplina
-                    if(codD == r.codigoDisc){
-                        slotsObrig = r.slotsObrig;
-                    }
-                }
-            }
+            timeslot.retainAll(timeslotDisp);
+            
             //selecionar timeslots necessários para a disciplina;
             int h_p, h_t;
             h_p = disc.cargaH_P;
             h_t = disc.cargaH_T;
-            
+
+            //Verifica se a disciplina tem aulas praticas
             if(h_p!=0){
-                if(slotsObrig.length == 0){
-                  for(Integer islot : timeslot){
-                      slotaux = cromossomo.get(islot);
+                  //Verifica se o timeslot sorteado esta livre para ser utilizado
+                  for(Integer islot : timeslot){ //Timeslot deve ser disponivel tanto para a disciplina quanto para o professor
+                      slotaux = this.cromossomo.get(islot);
                       for (AcidoNucleico an : slotaux){
                           if(an.sala.tipo == disc.tipoS_P && an.usado == false){
                               an.disc = disc;
@@ -110,10 +103,11 @@ public class Cromossomo{
                               
                           }
                       }
-                  }
-                }else{
-                    
+                  
                 }
+            }
+            if(h_t != 0){
+                
             }
             
             
@@ -277,6 +271,80 @@ public class Cromossomo{
     }
     
     
+    /**
+     * Esta metodo retorna uma lista de professores aptos a ministrar a disciplina
+     * disc, que eh o parametro de entrada.
+     * @param disc
+     * @return 
+     */ 
+    public ArrayList<Professor> GerarProf(int disc){
+        ArrayList<Professor> profs = new ArrayList<Professor>();
+        for(Professor aux: professores){
+            for(int i : aux.dispM){
+                if(i == disc){
+                    profs.add(aux);
+                }
+            }
+        }
+        return profs;
+    }
+    
+    public ArrayList<Integer> GerarRestDisc(int disc){
+                //armazena os slots nos quais a disciplina pode ser dada, caso houver restrição.
+            int slotsObrig[] = new int[30];
+            
+            ArrayList<Integer> aux = new ArrayList<Integer>();
+            
+            //criar uma lista que associa o periodo e o curso
+            //essa disciplina possui restrição? 
+            for( Restricoes r : restricoes){
+                if(r.restricaoTipo == 2){ //restricao para disciplina
+                    if(disc == r.codigoDisc){
+                        slotsObrig = r.slotsObrig;
+                    }
+                }
+            }
+            
+            for(int i : slotsObrig){
+                aux.add(i);
+            }
+            
+            return aux;
+    }
+    
+    
+    
+    public void TimeslotProfDisc (ArrayList<Integer> timeslot, ArrayList<Professor> profs){
+        ArrayList<Restricoes> aux = new ArrayList<Restricoes>();
+        ArrayList<Professor> profAux = new ArrayList<Professor>();
+        int pcod;
+        boolean deuRuim = false;
+        
+        for(Restricoes r: restricoes){
+            if (r.restricaoTipo == 1)
+                aux.add(r);
+        }
+        
+        for(int i: timeslot){
+            for(Professor p: profs){
+                for(Restricoes rr: aux){
+                    if(p.cod == rr.codigoProf){
+                        for(int kappa: rr.slotsIndisp){
+                            if(kappa == i){
+                                deuRuim = true;
+                            }
+                        }
+                        if(deuRuim == false){
+                            profAux.add(p);
+                            deuRuim = false;
+                        }    
+                    }else{
+                        profAux.add(p);
+                    }
+                }
+            }
+        }
+    } 
     
     //metodo teste para printar a lista randomica
     public void printaLista(ArrayList<Integer> slots){
