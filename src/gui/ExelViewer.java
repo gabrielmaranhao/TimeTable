@@ -21,6 +21,7 @@ import au.com.bytecode.opencsv.CSVReader;
 import java.awt.Desktop;
 import java.io.FileReader;
 import java.util.*;
+import org.apache.poi.ss.util.*;
 
 public class ExelViewer {  
     
@@ -97,33 +98,77 @@ public class ExelViewer {
             
             
             for(Aula aula : au){
+                
+                        excel_data.put(Integer.toString(linha), new Object[] 
+                {au.get(linha).disp.getCodD(),au.get(linha).timeSlot.getCod(),au.get(linha).prof.getCod(),au.get(linha).sala.getCod()}); 
             
-            
-            
-            excel_data.put(Integer.toString(linha), new Object[] 
-            {au.get(linha).disp.getCodD(),au.get(linha).timeSlot.getCod(),au.get(linha).prof.getCod(),au.get(linha).sala.getCod()}); 
-            
-            linha++;
+                linha++;
             
             }
             linha = 0;
             
+            int rownum = 0;
+            Row row = sheet.createRow(0);
+            Object [] objArr = null;
+            int cellnum = 0;
+            Cell cell = null;
+            CellStyle cellStyle = new_workbook.createCellStyle();
+            
+            sheet.addMergedRegion(new CellRangeAddress(
+            0, //first row (0-based)
+            0, //last row  (0-based)
+            2, //first column (0-based)
+            4  //last column  (0-based)
+            ));
+            
+            createCell(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia de Computação");
+            row = sheet.createRow(1);
+            
+            createCell(new_workbook,row,(short)1,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda");
+            createCell(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça");
+            createCell(new_workbook,row,(short)3,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta");
+            createCell(new_workbook,row,(short)4,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta");
+            createCell(new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta");
+            createCell(new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado");
+            //
+                    
+ 
+            rownum = 2;
+            int j=0;
+            
+            for(timetable.TimeSlot ts : timetable.LeituraCSV.TIMESLOT){
+                
+                
+                int num = timetable.LeituraCSV.TIMESLOT.get(j).getCod();
+                
+                if(((num >= 32 && num <= 36) || (num >= 38 && num <= 46)) && timetable.LeituraCSV.TIMESLOT.get(j).getDia() == 2){
+                    
+                    
+                        row = sheet.createRow(rownum);    
+                        createCell(new_workbook,row,(short)0,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,
+                        timetable.LeituraCSV.TIMESLOT.get(j).getHoraInicio() +"-"+ timetable.LeituraCSV.TIMESLOT.get(j).getHoraFinal() );
+                        rownum++;
+                }
+                
+                j++;
+                
+            }
             
             /* Step -5: Create Excel Data from the map using POI */
-                Set<String> keyset = excel_data.keySet();
-                int rownum = 0;
-                for (String key : keyset) { //loop through the data and add them to the cell
-                        Row row = sheet.createRow(rownum++);
-                        Object [] objArr = excel_data.get(key);
-                        int cellnum = 0;
-                        for (Object obj : objArr) {
-                                Cell cell = row.createCell(cellnum++);
-                                if(obj instanceof Double)
-                                        cell.setCellValue((Double)obj);
-                                else
-                                        cell.setCellValue((int)obj);
-                                }
-                }
+//                Set<String> keyset = excel_data.keySet();
+//                rownum = 2;
+//                for (String key : keyset) { //loop through the data and add them to the cell
+//                        row = sheet.createRow(rownum++);
+//                        objArr = excel_data.get(key);
+//                        cellnum = 1;
+//                        for (Object obj : objArr) {
+//                                cell = row.createCell(cellnum++);
+//                                if(obj instanceof Double)
+//                                        cell.setCellValue((Double)obj);
+//                                else
+//                                        cell.setCellValue((int)obj);
+//                                }
+//                }
                 /* Write XLS converted CSV file to the output file */
                 FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
                 new_workbook.write(output_file);//write converted XLSX file to output stream
@@ -132,9 +177,14 @@ public class ExelViewer {
                 try {   // abre exel com arquivo
                         Desktop.getDesktop().open(new File("C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\CSV_2_XLSX.xlsx"));
                 } catch (IOException e) {e.printStackTrace();}
-                
-            
-            
-            
+                  
         }
+        private static void createCell(XSSFWorkbook wb, Row row, short column, short halign, short valign, String value) {
+        Cell cell = row.createCell(column);
+        cell.setCellValue(value);
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cell.setCellStyle(cellStyle);
+    }
 }
