@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,14 +42,14 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     private String[] args;
     
     
-    public VizualizacaoHorario() {
+    public VizualizacaoHorario() throws Exception {
         initComponents();
         
         TimeTable.main(args);
-        
+         
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(850, 630);            //seta o tamanho da JFrame
+        setSize(400, 300);            //seta o tamanho da JFrame
         setLocationRelativeTo(null);  // coloca a JFrame no centro da tela.
         //setContentPane(sli);          //chama o slide de imagens
     
@@ -303,6 +305,13 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
            
          LerHorario();
          
+            try {
+                ExelViewer.HorariosGeral2(aula);
+            } catch (Exception ex) {
+                Logger.getLogger(VizualizacaoHorario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+        
          break;
         }
          else{
@@ -382,31 +391,19 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
 //                                        + "Sala de Aula: " + LeituraCSV.SALA.get(salaIndex).getCod());
                                 
                                 aula.add(au);
-                                
-                                
+          
                             }
                             i++; 
-                     
                      }
-                     i=0;
-                     
-                     
-                     
-                     
-                     
-                     
-                 }
-              
+                     i=0;                   
+                 }            
             }
              i=0;
              for( Aula al : aula){
             
                             System.out.println("Gravou: "+ aula.get(i).disp.getCodD()+","+aula.get(i).timeSlot.getCod()+","+aula.get(i).prof.getCod()+","+aula.get(i).sala.getCod());
                       i++;
-                    }
-                     //i=0;
-                
-                
+                    }            
          }catch(FileNotFoundException e) {
                    e.printStackTrace();
          }catch (IOException e) {
@@ -452,7 +449,11 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VizualizacaoHorario().setVisible(true);
+                try {
+                    new VizualizacaoHorario().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(VizualizacaoHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
