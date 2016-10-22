@@ -25,104 +25,34 @@ import org.apache.poi.ss.util.*;
 
 public class ExelViewer {  
     
-    
-        public static void HorariosGeral() throws Exception{
-                
-//                /* Step -1 : Read input CSV file in Java */
-//                String inputCSVFile = "C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-horarios.csv";
-//                CSVReader reader = new CSVReader(new FileReader(inputCSVFile));
-//                /* Variables to loop through the CSV File */
-//                String [] nextLine; /* for every line in the file */            
-//                int lnNum = 0; /* line number */
-//                /* Step -2 : Define POI Spreadsheet objects */          
-//                XSSFWorkbook  new_workbook = new XSSFWorkbook (); //create a blank workbook object
-//                XSSFSheet sheet = new_workbook.createSheet("CSV_to_XLSX");  //create a worksheet with caption score_details
-//                /* Step -3: Define logical Map to consume CSV file data into excel */
-//                Map<String, Object[]> excel_data = new HashMap<String, Object[]>(); //create a map and define data
-//                /* Step -4: Populate data into logical Map */
-//                
-//                
-//                while ((nextLine = reader.readNext()) != null) {
-//                    
-//                    
-//                        lnNum++; 
-//                        
-//                        if(nextLine[0].equals("//")){
-//                            
-//                            
-//                        }
-//                        else if(nextLine[0].equals("// Arquivo de Saída: Horário de aulas")){
-//                            
-//                        }
-//                        else if(nextLine[0].equals("//Disciplina/Time-Slot/Professor/Sala")){
-//                        }
-//                        else{
-//                        
-//                        
-//                        
-//                        excel_data.put(Integer.toString(lnNum), new Object[] {nextLine[0],nextLine[1],nextLine[2],nextLine[3]}); 
-//                        }
-//                        
-//                        
-//                        
-//                        
-//                }
-//                /* Step -5: Create Excel Data from the map using POI */
-//                Set<String> keyset = excel_data.keySet();
-//                int rownum = 0;
-//                for (String key : keyset) { //loop through the data and add them to the cell
-//                        Row row = sheet.createRow(rownum++);
-//                        Object [] objArr = excel_data.get(key);
-//                        int cellnum = 0;
-//                        for (Object obj : objArr) {
-//                                Cell cell = row.createCell(cellnum++);
-//                                if(obj instanceof Double)
-//                                        cell.setCellValue((Double)obj);
-//                                else
-//                                        cell.setCellValue((String)obj);
-//                                }
-//                }
-//                /* Write XLS converted CSV file to the output file */
-//                FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
-//                new_workbook.write(output_file);//write converted XLSX file to output stream
-//                output_file.close(); //close the file
-        }
+    static WorkSheet ws;
         
         
-        public static void HorariosGeral2(ArrayList<Aula> au) throws Exception{
-            int linha = 0;
-            XSSFWorkbook  new_workbook = new XSSFWorkbook (); //create a blank workbook object
+        
+        public static WorkSheet HorariosGeral() throws Exception{
+            
+            XSSFWorkbook new_workbook = new XSSFWorkbook (); //create a blank workbook object
             XSSFSheet sheet = new_workbook.createSheet("CSV_to_XLSX");  //create a worksheet with caption score_details
             /* Step -3: Define logical Map to consume CSV file data into excel */
-            Map<String, Object[]> excel_data = new HashMap<String, Object[]>(); //create a map and define data
+            WorkSheet ws = new WorkSheet(new_workbook, sheet);
+                   
             
             int rownum = 0;
-            Row row = sheet.createRow(0);
+            Row row = ws.sheet.createRow(0);
             Object [] objArr = null;
             int cellnum = 0;
             Cell cell = row.getCell(0);
-            CellStyle cellStyle = new_workbook.createCellStyle();
-            CellStyle style = new_workbook.createCellStyle();
-            CellStyle stylee = new_workbook.createCellStyle();
-            Font font = new_workbook.createFont();
+            CellStyle cellStyle = ws.new_workbook.createCellStyle();
+            CellStyle style = ws.new_workbook.createCellStyle();
+            CellStyle stylee = ws.new_workbook.createCellStyle();
+            Font font = ws.new_workbook.createFont();
             
-            for(Aula aula : au){
-                
-                        excel_data.put(Integer.toString(linha), new Object[] 
-                           {au.get(linha).disp.getCodD(),
-                            au.get(linha).timeSlot.getCod(),
-                            au.get(linha).prof.getCod(),
-                            au.get(linha).sala.getCod()}); 
             
-                linha++;
-            
-            }
-            linha = 0;
             
             
             
             for(int i=0;i<200;i++){
-                    row = sheet.createRow(i);
+                    row = ws.sheet.createRow(i);
                        for(int j=0;j<30;j++){
                             cell = row.getCell(j);
                             }
@@ -133,15 +63,15 @@ public class ExelViewer {
                
            if(curso == 0){
                     
-            sheet.addMergedRegion(new CellRangeAddress(
+            ws.sheet.addMergedRegion(new CellRangeAddress(
             0, //first row (0-based)
             0, //last row  (0-based)
             2, //first column (0-based)
             4  //last column  (0-based)
             ));
             
-            row = sheet.createRow(0);
-            createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia de Computação",stylee);
+            row = ws.sheet.createRow(0);
+            createCell1(ws.new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia de Computação",stylee);
         
             int x=0;
             int y =0;
@@ -167,21 +97,21 @@ public class ExelViewer {
             
             for(int periodo = 1; periodo<=12; periodo++){
                 
-                row = sheet.createRow(x+1);
-                createCell1(new_workbook,row,(short)1,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
-                createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
-                createCell1(new_workbook,row,(short)3,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
-                createCell1(new_workbook,row,(short)4,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
-                createCell1(new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
-                createCell1(new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
+                row = ws.sheet.createRow(x+1);
+                createCell1(ws.new_workbook,row,(short)1,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
+                createCell1(ws.new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
+                createCell1(ws.new_workbook,row,(short)3,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
+                createCell1(ws.new_workbook,row,(short)4,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
+                createCell1(ws.new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
+                createCell1(ws.new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
                     
-                TimeSlotsCell(row, sheet,cell, x+2, new_workbook, cellStyle,z);
-                PeriodoCell(row,x+1 , sheet, cell,0, font, style, new_workbook, periodo,z);
+                TimeSlotsCell(row, ws.sheet,cell, x+2, ws.new_workbook, cellStyle,z);
+                PeriodoCell(row,x+1 , ws.sheet, cell,0, font, style, ws.new_workbook, periodo,z);
                 x = x+16;
                 
                  
             }
-            sheet.autoSizeColumn((short) 0);
+            ws.sheet.autoSizeColumn((short) 0);
             
            }
            else{
@@ -189,28 +119,28 @@ public class ExelViewer {
                
                if (curso == 1){
                    
-                   sheet.addMergedRegion(new CellRangeAddress(
+                   ws.sheet.addMergedRegion(new CellRangeAddress(
                     0, //first row (0-based)
                     0, //last row  (0-based)
                     2+z, //first column (0-based)
                     4+z  //last column  (0-based)
                     ));
             
-                    //row = sheet.createRow(0);
-                    createCell2(new_workbook,row,0,sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Elétrica",stylee);                 
+                    //row = ws.sheet.createRow(0);
+                    createCell2(ws.new_workbook,row,0,ws.sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Elétrica",stylee);                 
                    
                }
                else{
                    
-                   sheet.addMergedRegion(new CellRangeAddress(
+                   ws.sheet.addMergedRegion(new CellRangeAddress(
                     0, //first row (0-based)
                     0, //last row  (0-based)
                     2+z, //first column (0-based)
                     4+z  //last column  (0-based)
                     ));
             
-                    //row = sheet.createRow(0);
-                    createCell2(new_workbook,row,0,sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Mecânica",stylee); 
+                    //row = ws.sheet.createRow(0);
+                    createCell2(ws.new_workbook,row,0,ws.sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Mecânica",stylee); 
                    
                }
                
@@ -218,16 +148,16 @@ public class ExelViewer {
                 int y =0;
                 for(int periodo = 1; periodo<=10; periodo++){
                 
-                //row = sheet.createRow(x+1);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(1+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(2+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(3+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(4+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(5+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
-                createCell2(new_workbook,row,x+1,sheet,cell,(short)(6+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
+                //row = ws.sheet.createRow(x+1);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(1+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(2+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(3+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(4+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(5+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
+                createCell2(ws.new_workbook,row,x+1,ws.sheet,cell,(short)(6+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
                     
-                TimeSlotsCell(row, sheet,cell, x+2, new_workbook, cellStyle,z);
-                PeriodoCell(row,x+1, sheet, cell,0+z, font, style, new_workbook, periodo,z);
+                TimeSlotsCell(row, ws.sheet,cell, x+2, ws.new_workbook, cellStyle,z);
+                PeriodoCell(row,x+1, ws.sheet, cell,0+z, font, style, ws.new_workbook, periodo,z);
                 x = x+16;
                 
                  
@@ -236,20 +166,311 @@ public class ExelViewer {
                
                
            }
-           sheet.autoSizeColumn((short) 9);
-           sheet.autoSizeColumn((short) 18);
+           ws.sheet.autoSizeColumn((short) 9);
+           ws.sheet.autoSizeColumn((short) 18);
                
            }
                
+          /* Write XLS converted CSV file to the output file */
+                return ws;
+
+        
+        }
+
+        public static void FillTables(ArrayList<Aula> au) throws Exception{
+            int linha = 0;
+            WorkSheet ws;
+            ws = HorariosGeral();
+            int rownum = 0;
+            int cellnum = 0;
+            CellStyle cellStyle = ws.new_workbook.createCellStyle();
+            
+            cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
+            cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+            cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+            cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderTop(CellStyle.BORDER_THIN);
+            cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+            
+            Map<String, Object[]> excel_data = new HashMap<String, Object[]>(); //create a map and define data
+            Object [] objArr = null;    
+            
+                for(Aula aula : au){
+                
+                        excel_data.put(Integer.toString(au.get(linha).timeSlot.getCod()), new Object[] 
+                          
+                            {au.get(linha).disp.getCodD(),
+                            au.get(linha).timeSlot.getCod(),
+                            au.get(linha).prof.getCod(),
+                            au.get(linha).sala.getCod()}); 
+            
+                linha++;
+            
+            }
+            linha = 0;
+            
+                
+                
+                
+                
+//                //* Step -5: Create Excel Data from the map using POI */
+                  Set<String> keyset = excel_data.keySet();
+
+                        int i=0;
+                       for(Aula aula : au){
                            
-           
-            
-           
-            
-            /* Step -5: Create Excel Data from the map using POI */
-//                Set<String> keyset = excel_data.keySet();
-//                rownum = 2;
-//                for (String key : keyset) { //loop through the data and add them to the cell
+ //                          if( keyset.contains(Integer.toString(au.get(i).timeSlot.getCod()))){
+                               
+                              if(au.get(i).curso == 1){  // Eng. comp
+                               
+                                  cellnum = 1;
+                                  
+                                  switch(au.get(i).periodo){
+                                      
+                                           case 1:
+                                               rownum = 2;
+                                          
+                                          break;
+                                           case 2:
+                                               rownum = 18;
+                                          
+                                          break;
+                                           case 3:
+                                               rownum = 34;
+                                          
+                                          break;
+                                           case 4:
+                                               rownum = 50;
+                                          
+                                          break;
+                                           case 5:
+                                               rownum = 66;
+                                          
+                                          break;
+                                           case 6:
+                                               rownum = 82;
+                                          
+                                          break;
+                                           case 7:
+                                               rownum = 98;
+                                          
+                                          break;
+                                           case 8:
+                                               rownum = 114;
+                                          
+                                          break;
+                                           case 9:
+                                               rownum = 130;
+                                          
+                                          break;
+                                           case 10:
+                                               rownum = 146;
+                                          
+                                          break;
+                                           case 11:
+                                               rownum = 162;
+                                          
+                                          break;
+                                           case 12:
+                                               rownum = 178;
+                                          
+                                          break;
+                                         
+                              }
+                                  
+                                  
+                              }
+                              else if(au.get(i).curso == 2){
+                                  
+                                  cellnum = 10;
+                                  
+                                  switch(au.get(i).periodo){
+                                      
+                                           case 1:
+                                               rownum = 2;
+                                          
+                                          break;
+                                           case 2:
+                                               rownum = 18;
+                                          
+                                          break;
+                                           case 3:
+                                               rownum = 34;
+                                          
+                                          break;
+                                           case 4:
+                                               rownum = 50;
+                                          
+                                          break;
+                                           case 5:
+                                               rownum = 66;
+                                          
+                                          break;
+                                           case 6:
+                                               rownum = 82;
+                                          
+                                          break;
+                                           case 7:
+                                               rownum = 98;
+                                          
+                                          break;
+                                           case 8:
+                                               rownum = 114;
+                                          
+                                          break;
+                                           case 9:
+                                               rownum = 130;
+                                          
+                                          break;
+                                           case 10:
+                                               rownum = 146;
+                                          
+                                          break;
+          
+                              }
+                                  
+                                  
+                              }
+                              else{
+                                  
+                                  cellnum = 19;
+                                  
+                                  switch(au.get(i).periodo){
+                                      
+                                           case 1:
+                                               rownum = 2;
+                                          
+                                          break;
+                                           case 2:
+                                               rownum = 18;
+                                          
+                                          break;
+                                           case 3:
+                                               rownum = 34;
+                                          
+                                          break;
+                                           case 4:
+                                               rownum = 50;
+                                          
+                                          break;
+                                           case 5:
+                                               rownum = 66;
+                                          
+                                          break;
+                                           case 6:
+                                               rownum = 82;
+                                          
+                                          break;
+                                           case 7:
+                                               rownum = 98;
+                                          
+                                          break;
+                                           case 8:
+                                               rownum = 114;
+                                          
+                                          break;
+                                           case 9:
+                                               rownum = 130;
+                                          
+                                          break;
+                                           case 10:
+                                               rownum = 146;
+                                          
+                                          break;
+                                                
+                              }
+                                  
+                              }
+                              
+                              
+                              switch(au.get(i).timeSlot.getDia()){
+                                  
+                                  case 2:
+                                      
+                                      
+                                      break;
+                                  case 3:
+                                      cellnum = cellnum +1;
+                                      
+                                      
+                                      break;
+                                  case 4:
+                                      
+                                      cellnum = cellnum +2;
+                                      
+                                      break;
+                                  case 5:
+                                      
+                                      cellnum = cellnum +3;
+                                      
+                                      break;
+                                  case 6:
+                                      
+                                      cellnum = cellnum +4;
+                                      
+                                      break;
+                                  case 7:
+                                      
+                                      cellnum = cellnum +5;
+                                      
+                                      break;    
+                                      
+                                      
+                                      
+                              }
+                              
+                              switch(au.get(i).timeSlot.getHoraInicio()){
+                                  
+                                  
+                                       case "07:00":
+                                      break;
+                                       case "08:00": rownum = rownum +1;
+                                      break;
+                                       case "09:00": rownum = rownum +2;
+                                      break;
+                                       case "10:00": rownum = rownum +3;
+                                      break;
+                                       case "11:00": rownum = rownum +4;
+                                      break;
+                                       case "13:00": rownum = rownum +5;
+                                      break;
+                                       case "14:00": rownum = rownum +6;
+                                      break;
+                                       case "15:00": rownum = rownum +7;
+                                      break;
+                                       case "16:00": rownum = rownum +8;
+                                      break;
+                                       case "17:00": rownum = rownum +9;
+                                      break;
+                                       case "18:00": rownum = rownum +10;
+                                      break;
+                                       case "19:00": rownum = rownum +11;
+                                      break;
+                                       case "20:00": rownum = rownum +12;
+                                      break;
+                                       case "21:00": rownum = rownum +13;
+                                      break;
+      
+                              }
+                              
+                              createCell2(ws.new_workbook, 
+                                      ws.sheet.getRow(rownum), 
+                                      rownum, 
+                                      ws.sheet,
+                                      ws.sheet.getRow(rownum).getCell(cellnum), 
+                                      cellnum,CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, 
+                                      au.get(i).disp.getDescri()+"|Prof0"+au.get(i).prof.getCod()+"|"+au.get(i).sala.getCod(), // texto
+                                      cellStyle);
+                               
+                              ws.sheet.autoSizeColumn((short) cellnum);
+                               
+                               
+                         i++;  
+                       }
+
+//loop through the data and add them to the cell
 //                        row = sheet.createRow(rownum++);
 //                        objArr = excel_data.get(key);
 //                        cellnum = 1;
@@ -260,18 +481,17 @@ public class ExelViewer {
 //                                else
 //                                        cell.setCellValue((int)obj);
 //                                }
-//                }
-                /* Write XLS converted CSV file to the output file */
-                FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
-                new_workbook.write(output_file);//write converted XLSX file to output stream
-                output_file.close(); //close the file
                 
-                try {   // abre exel com arquivo
+//                /* Write XLS converted CSV file to the output file */
+                  FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
+                  ws.new_workbook.write(output_file);//write converted XLSX file to output stream
+                  output_file.close(); //close the file
+
+                 try {   // abre exel com arquivo
                         Desktop.getDesktop().open(new File("C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\CSV_2_XLSX.xlsx"));
                 } catch (IOException e) {e.printStackTrace();}
-                  
-        
         }
+        
         private static void createCell1(XSSFWorkbook wb, Row row, short column, short halign, short valign, String value,CellStyle cellStyle) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
@@ -280,6 +500,7 @@ public class ExelViewer {
         cellStyle.setVerticalAlignment(valign);
         cell.setCellStyle(cellStyle);
     }
+        
         private static void PeriodoCell(Row row,int rownum,Sheet sheet,Cell cell,int cellNum,Font font,CellStyle style,XSSFWorkbook new_workbook, int periodo, int z){
             
             row = sheet.getRow(rownum);
@@ -290,7 +511,7 @@ public class ExelViewer {
             
         }
         
-       public static void createCell2(XSSFWorkbook wb,Row row,int rownum,Sheet sheet,Cell cell,int cellNum, short halign, short valign, String value,CellStyle cellStyle) {
+        public static void createCell2(XSSFWorkbook wb,Row row,int rownum,Sheet sheet,Cell cell,int cellNum, short halign, short valign, String value,CellStyle cellStyle) {
         row = sheet.getRow(rownum);
         cell = row.getCell(cellNum);
         if (cell == null) {

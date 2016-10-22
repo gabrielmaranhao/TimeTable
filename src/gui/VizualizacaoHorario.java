@@ -19,6 +19,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -29,7 +30,8 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     JLabel lab= new JLabel();
     String userhome = System.getProperty("user.home");
     JFileChooser chooser = new JFileChooser(userhome +"\\Documents\\NetBeansProjects\\TimeTable\\src\\files");
-  
+   
+   
     
     
     
@@ -302,7 +304,8 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
          LerHorario();
          
             try {
-                ExelViewer.HorariosGeral2(aula);
+                
+                ExelViewer.FillTables(aula);
             } catch (Exception ex) {
                 Logger.getLogger(VizualizacaoHorario.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -355,7 +358,7 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
                      for(SalaAula sa : LeituraCSV.SALA){
                          
                          if(Integer.parseInt(aux[3]) == LeituraCSV.SALA.get(i).getCod()){
-                            // System.out.println("SALA DE AULA"+aux[3]);
+                           // System.out.println("SALA DE AULA"+aux[3]);
                            salaIndex = i;
                           // break;
                              
@@ -387,6 +390,7 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
 //                                        + "Sala de Aula: " + LeituraCSV.SALA.get(salaIndex).getCod());
                                 
                                 aula.add(au);
+                                //System.out.println("Gravou: "+ aula.get(i).disp.getCodD()+","+aula.get(i).timeSlot.getCod()+","+aula.get(i).prof.getCod()+","+aula.get(i).sala.getCod());
           
                             }
                             i++; 
