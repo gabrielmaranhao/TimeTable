@@ -31,6 +31,8 @@ public class Cromossomo{
     
     Random randomGenerator = new Random();
     ArrayList<String> output;
+    
+    ArrayList<Integer> todosTS = new ArrayList<Integer>();
 
     
     public Cromossomo(ArrayList<Disciplina> disciplinas, ArrayList<Estudante> estudantes, ArrayList<TimeSlot> timeslots,
@@ -56,6 +58,10 @@ public class Cromossomo{
             inner = new ArrayList<AcidoNucleico>();
         }
         
+        for(int x = 0; x < 168; x++){
+            todosTS.add(x + 1);
+        }
+        
     }
     
    
@@ -66,6 +72,12 @@ public class Cromossomo{
         Disciplina disc;
         ArrayList<TimeSlot> var;
         ArrayList<Integer> timeslotDisp;
+        ArrayList<Integer> profList;
+        ArrayList<Integer> profTSIndis;
+        ArrayList<Integer> profTSDis;
+        int prof;
+        boolean profSel = false;
+        int indexProf = 0;
         
         //randomizar as disciplinas
         Collections.shuffle(disciplinas);
@@ -80,16 +92,39 @@ public class Cromossomo{
             codD = disc.codD;
             curso = disc.codC;
             periodo = disc.codP;
+            //Gera horaris disponiveis para o curso
             ArrayList<Integer> timeslot = GerarSlotsCurso(disc.codC);
-             
+            //Se existir restricoes na disciplina elas serao retornadas 
             timeslotDisp = GerarRestDisc(codD);
-            
+            //Interseccao das restricoes com os horarios do curso
             timeslot.retainAll(timeslotDisp);
-            
+            //Retorna uma lista randomica de professores que podem dar a disciplina
+            profList = GerarProfRand(codD);
             //selecionar timeslots necessários para a disciplina;
             int h_p, h_t;
             h_p = disc.cargaH_P;
             h_t = disc.cargaH_T;
+            
+            while(!profSel){
+                //Seleciona um professor da lista
+                prof = profList.get(indexProf);
+                //Busca as restricoes do professor
+                profTSIndis = RetRestProf(prof);
+                // Copia uma lista com todos os timeslots
+                profTSDis = todosTS;
+                //Remove da lista com todos timeslots os indisponiveis devido as restricoes
+                profTSDis.removeAll(profTSIndis);
+                //Copia os timeslots disponiveis da disciplina
+                timeslotDisp = timeslot;
+                //Faz inteseccao dos horarios disponiveis do professor com o da materia
+                timeslotDisp.retainAll(profTSDis);
+                //Verifica se os timeslots disponiveis eh suficiente para a materia
+                if(timeslotDisp.size() == (h_p + h_t)){
+                    
+                    
+                }
+            }
+
 
             //Verifica se a disciplina tem aulas praticas
             if(h_p!=0){
@@ -345,6 +380,47 @@ public class Cromossomo{
             }
         }
     } 
+    
+    /**
+     * Essa funcao retorna um professor aleatorio que ministra a disciplina 
+     * introduzida na entrada
+     * @param disc
+     * @return 
+     */
+    public ArrayList<Integer> GerarProfRand(int disc){
+    
+        ArrayList<Professor> funcLisProf = professores;
+        
+        ArrayList<Integer> retProf = new ArrayList<>();
+        
+        Collections.shuffle(funcLisProf);
+        
+        professores.forEach((prof) -> {
+            int [] dispM = prof.getDispM();
+            for(int codDisc: dispM){
+                if(codDisc == disc){
+                    retProf.add(prof.getCod());
+                }
+            }
+        });
+        return retProf;
+    }
+    
+    /**
+     * Retorna as restricoes do professor. Horarios indisponiveis para ministrar
+     * aulas.
+     * @param codPro
+     * @return 
+     */
+    public ArrayList<Integer> RetRestProf(int codPro){
+        for(Restricoes profRes : restricoes){
+            if(profRes.restricaoTipo == 1 && profRes.codigoProf == codPro){
+                return profRes.getSlotsIndisp();
+            }
+        }
+        ArrayList<Integer> empty = new ArrayList<Integer>();
+        return empty;
+    }
     
     //metodo teste para printar a lista randomica
     public void printaLista(ArrayList<Integer> slots){

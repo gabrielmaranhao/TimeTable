@@ -285,12 +285,12 @@ public void LerRes(){
     private void LerResDISCIPLINA() {
         //lê as restrições para Disciplinas
         Restricoes restr;
-        int[] aux1 = new int[30];
+        ArrayList<Integer> aux1 = new ArrayList<Integer>();
         String[] aux = line.split(cvsSplitBy);
         //após adicionar cada valor separado por virgula em um array, adiciona somente a partir do segundo no array aux1
         //que representa as restrições
         for(int i=1; i<aux.length;i++){
-            aux1[i-1] = Integer.parseInt(aux[i]);
+            aux1.add(Integer.parseInt(aux[i]));
         }
         // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
         restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
@@ -300,11 +300,11 @@ public void LerRes(){
     private void LerResPROFESSOR() {
         //lê as restrições para professores
         Restricoes restr;
-        int[] aux1 = new int[30];
+        ArrayList<Integer> aux1 = new ArrayList<Integer>();
         String[] aux = line.split(cvsSplitBy);
         //mesmo processo utilizado em LerResDisciplina()
         for(int i=1; i<aux.length;i++){
-            aux1[i-1] = Integer.parseInt(aux[i]);
+            aux1.add(Integer.parseInt(aux[i]));
         }
         // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
         restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
