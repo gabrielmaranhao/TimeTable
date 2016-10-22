@@ -96,6 +96,15 @@ public class ExelViewer {
             /* Step -3: Define logical Map to consume CSV file data into excel */
             Map<String, Object[]> excel_data = new HashMap<String, Object[]>(); //create a map and define data
             
+            int rownum = 0;
+            Row row = sheet.createRow(0);
+            Object [] objArr = null;
+            int cellnum = 0;
+            Cell cell = row.getCell(0);
+            CellStyle cellStyle = new_workbook.createCellStyle();
+            CellStyle style = new_workbook.createCellStyle();
+            CellStyle stylee = new_workbook.createCellStyle();
+            Font font = new_workbook.createFont();
             
             for(Aula aula : au){
                 
@@ -110,14 +119,7 @@ public class ExelViewer {
             }
             linha = 0;
             
-            int rownum = 0;
-            Row row = sheet.createRow(0);
-            Object [] objArr = null;
-            int cellnum = 0;
-            Cell cell = row.getCell(0);
-            CellStyle cellStyle = new_workbook.createCellStyle();
-            CellStyle style = new_workbook.createCellStyle();
-            Font font = new_workbook.createFont();
+            
             
             for(int i=0;i<200;i++){
                     row = sheet.createRow(i);
@@ -127,7 +129,7 @@ public class ExelViewer {
                     }
             
             
-
+                    
             sheet.addMergedRegion(new CellRangeAddress(
             0, //first row (0-based)
             0, //last row  (0-based)
@@ -136,32 +138,44 @@ public class ExelViewer {
             ));
             
             row = sheet.createRow(0);
-            createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia de Computação",cellStyle);
-            
-            row = sheet.createRow(1);
-            createCell1(new_workbook,row,(short)1,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
-            createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
-            createCell1(new_workbook,row,(short)3,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
-            createCell1(new_workbook,row,(short)4,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
-            createCell1(new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
-            createCell1(new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
-            //
-             
-             
-            
-            
-            
-            sheet.autoSizeColumn((short) 0);
-            
-            
-            int x=1;
+            createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia de Computação",stylee);
+        
+            int x=0;
             int y =0;
             
+          
+            style.setBorderBottom(CellStyle.BORDER_THIN);
+            style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+            style.setBorderLeft(CellStyle.BORDER_THIN);
+            style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+            style.setBorderRight(CellStyle.BORDER_THIN);
+            style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+            style.setBorderTop(CellStyle.BORDER_THIN);
+            style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+            
+            cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
+            cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
+            cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+            cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+            cellStyle.setBorderTop(CellStyle.BORDER_THIN);
+            cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+            
             for(int periodo = 1; periodo<=12; periodo++){
+                
+                row = sheet.createRow(x+1);
+                createCell1(new_workbook,row,(short)1,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
+                createCell1(new_workbook,row,(short)2,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
+                createCell1(new_workbook,row,(short)3,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
+                createCell1(new_workbook,row,(short)4,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
+                createCell1(new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
+                createCell1(new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
                     
-                    TimeSlotsCell(row, sheet, x+1, new_workbook, cellStyle);
-                    PeriodoCell(row,x , sheet, cell,0, font, style, new_workbook, periodo);
-                     x = x+16;
+                TimeSlotsCell(row, sheet, x+2, new_workbook, cellStyle);
+                PeriodoCell(row,x+1 , sheet, cell,0, font, style, new_workbook, periodo);
+                x = x+16;
+                
                  
             }
             sheet.autoSizeColumn((short) 0);

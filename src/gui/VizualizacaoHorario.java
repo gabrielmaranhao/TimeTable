@@ -63,7 +63,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFiles = new javax.swing.JMenu();
         jMenuItemUparAnexo = new javax.swing.JMenuItem();
-        jMenuHorario = new javax.swing.JMenu();
         jMenuCurso = new javax.swing.JMenu();
         jMenuEngEle = new javax.swing.JMenu();
         jMenuItemEE1 = new javax.swing.JMenuItem();
@@ -117,9 +116,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         jMenuFiles.add(jMenuItemUparAnexo);
 
         jMenuBar1.add(jMenuFiles);
-
-        jMenuHorario.setText("Horários");
-        jMenuBar1.add(jMenuHorario);
 
         jMenuCurso.setText("Cursos");
 
@@ -466,7 +462,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEngMec;
     private javax.swing.JMenu jMenuExit;
     private javax.swing.JMenu jMenuFiles;
-    private javax.swing.JMenu jMenuHorario;
     private javax.swing.JMenuItem jMenuItemEC1;
     private javax.swing.JMenuItem jMenuItemEC10;
     private javax.swing.JMenuItem jMenuItemEC11;
