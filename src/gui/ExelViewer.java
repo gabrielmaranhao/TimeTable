@@ -127,8 +127,11 @@ public class ExelViewer {
                             cell = row.getCell(j);
                             }
                     }
-            
-            
+            int z=0;
+           for(int curso =0; curso<3;curso++){
+               
+               
+           if(curso == 0){
                     
             sheet.addMergedRegion(new CellRangeAddress(
             0, //first row (0-based)
@@ -172,13 +175,72 @@ public class ExelViewer {
                 createCell1(new_workbook,row,(short)5,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
                 createCell1(new_workbook,row,(short)6,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
                     
-                TimeSlotsCell(row, sheet, x+2, new_workbook, cellStyle);
-                PeriodoCell(row,x+1 , sheet, cell,0, font, style, new_workbook, periodo);
+                TimeSlotsCell(row, sheet,cell, x+2, new_workbook, cellStyle,z);
+                PeriodoCell(row,x+1 , sheet, cell,0, font, style, new_workbook, periodo,z);
                 x = x+16;
                 
                  
             }
             sheet.autoSizeColumn((short) 0);
+            
+           }
+           else{
+               z= z+9;
+               
+               if (curso == 1){
+                   
+                   sheet.addMergedRegion(new CellRangeAddress(
+                    0, //first row (0-based)
+                    0, //last row  (0-based)
+                    2+z, //first column (0-based)
+                    4+z  //last column  (0-based)
+                    ));
+            
+                    //row = sheet.createRow(0);
+                    createCell2(new_workbook,row,0,sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Elétrica",stylee);                 
+                   
+               }
+               else{
+                   
+                   sheet.addMergedRegion(new CellRangeAddress(
+                    0, //first row (0-based)
+                    0, //last row  (0-based)
+                    2+z, //first column (0-based)
+                    4+z  //last column  (0-based)
+                    ));
+            
+                    //row = sheet.createRow(0);
+                    createCell2(new_workbook,row,0,sheet,cell,2+z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Engenharia Mecânica",stylee); 
+                   
+               }
+               
+                int x=0;
+                int y =0;
+                for(int periodo = 1; periodo<=10; periodo++){
+                
+                //row = sheet.createRow(x+1);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(1+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Segunda",cellStyle);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(2+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Terça",cellStyle);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(3+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quarta",cellStyle);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(4+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Quinta",cellStyle);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(5+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sexta",cellStyle);
+                createCell2(new_workbook,row,x+1,sheet,cell,(short)(6+z),CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,"Sábado",cellStyle);
+                    
+                TimeSlotsCell(row, sheet,cell, x+2, new_workbook, cellStyle,z);
+                PeriodoCell(row,x+1, sheet, cell,0+z, font, style, new_workbook, periodo,z);
+                x = x+16;
+                
+                 
+            }
+               
+               
+               
+           }
+           sheet.autoSizeColumn((short) 9);
+           sheet.autoSizeColumn((short) 18);
+               
+           }
+               
                            
            
             
@@ -208,6 +270,7 @@ public class ExelViewer {
                         Desktop.getDesktop().open(new File("C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\CSV_2_XLSX.xlsx"));
                 } catch (IOException e) {e.printStackTrace();}
                   
+        
         }
         private static void createCell1(XSSFWorkbook wb, Row row, short column, short halign, short valign, String value,CellStyle cellStyle) {
         Cell cell = row.createCell(column);
@@ -217,13 +280,13 @@ public class ExelViewer {
         cellStyle.setVerticalAlignment(valign);
         cell.setCellStyle(cellStyle);
     }
-        private static void PeriodoCell(Row row,int rownum,Sheet sheet,Cell cell,int cellNum,Font font,CellStyle style,XSSFWorkbook new_workbook, int periodo){
+        private static void PeriodoCell(Row row,int rownum,Sheet sheet,Cell cell,int cellNum,Font font,CellStyle style,XSSFWorkbook new_workbook, int periodo, int z){
             
             row = sheet.getRow(rownum);
             cell = row.getCell(cellNum);
             font.setBoldweight(Font.BOLDWEIGHT_BOLD);
             style.setFont(font);                
-            createCell2(new_workbook,row,rownum,sheet,cell,(short)0,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, periodo + "º Período",style);
+            createCell2(new_workbook,row,rownum,sheet,cell,(short)z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER, periodo + "º Período",style);
             
         }
         
@@ -241,7 +304,7 @@ public class ExelViewer {
         cell.setCellStyle(cellStyle);
     }
         
-        private static void TimeSlotsCell(Row row, Sheet sheet, int rownum, XSSFWorkbook new_workbook, CellStyle cellStyle){
+        private static void TimeSlotsCell(Row row, Sheet sheet,Cell cell, int rownum, XSSFWorkbook new_workbook, CellStyle cellStyle, int z){
             
             int j=0;
             
@@ -252,11 +315,20 @@ public class ExelViewer {
                 
                 if(((num >= 32 && num <= 36) || (num >= 38 && num <= 46)) && timetable.LeituraCSV.TIMESLOT.get(j).getDia() == 2){
                     
-                    
+                        if( z == 0){
                         row = sheet.createRow(rownum);    
                         createCell1(new_workbook,row,(short)0,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,
                         timetable.LeituraCSV.TIMESLOT.get(j).getHoraInicio() +"-"+ timetable.LeituraCSV.TIMESLOT.get(j).getHoraFinal(),cellStyle);
                         rownum++;
+                        }
+                        else{
+                            
+                        createCell2(new_workbook,row,rownum,sheet,cell,(short)z,CellStyle.ALIGN_CENTER,CellStyle.VERTICAL_CENTER,
+                        timetable.LeituraCSV.TIMESLOT.get(j).getHoraInicio() +"-"+ timetable.LeituraCSV.TIMESLOT.get(j).getHoraFinal(),cellStyle);
+                        rownum++;
+                            
+                        }
+                      
                 }
                 
                 j++;
