@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gui;
 
 /**
@@ -162,9 +158,7 @@ public class ExelViewer {
                 
                  
             }
-               
-               
-               
+    
            }
            ws.sheet.autoSizeColumn((short) 9);
            ws.sheet.autoSizeColumn((short) 18);
@@ -470,18 +464,6 @@ public class ExelViewer {
                          i++;  
                        }
 
-//loop through the data and add them to the cell
-//                        row = sheet.createRow(rownum++);
-//                        objArr = excel_data.get(key);
-//                        cellnum = 1;
-//                        for (Object obj : objArr) {
-//                                cell = row.createCell(cellnum++);
-//                                if(obj instanceof Double)
-//                                        cell.setCellValue((Double)obj);
-//                                else
-//                                        cell.setCellValue((int)obj);
-//                                }
-                
 //                /* Write XLS converted CSV file to the output file */
                   FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
                   ws.new_workbook.write(output_file);//write converted XLSX file to output stream
