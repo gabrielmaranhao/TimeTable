@@ -22,13 +22,14 @@ import org.apache.poi.ss.util.*;
 public class ExelViewer {  
     
     static WorkSheet ws;
+    static String userhome = System.getProperty("user.home");
         
         
         
         public static WorkSheet HorariosGeral() throws Exception{
             
             XSSFWorkbook new_workbook = new XSSFWorkbook (); //create a blank workbook object
-            XSSFSheet sheet = new_workbook.createSheet("CSV_to_XLSX");  //create a worksheet with caption score_details
+            XSSFSheet sheet = new_workbook.createSheet("TabelaHorários");  //create a worksheet with caption score_details
             /* Step -3: Define logical Map to consume CSV file data into excel */
             WorkSheet ws = new WorkSheet(new_workbook, sheet);
                    
@@ -463,14 +464,16 @@ public class ExelViewer {
                                
                          i++;  
                        }
+                       
+                       //C:\Users\Gabriel\Documents\NetBeansProjects\TimeTable\src\files\ag-horarios.csv
 
 //                /* Write XLS converted CSV file to the output file */
-                  FileOutputStream output_file = new FileOutputStream(new File("CSV_2_XLSX.xlsx")); //create XLSX file
+                  FileOutputStream output_file = new FileOutputStream(new File(userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\TabelaHorários.xlsx")); //create XLSX file
                   ws.new_workbook.write(output_file);//write converted XLSX file to output stream
                   output_file.close(); //close the file
 
                  try {   // abre exel com arquivo
-                        Desktop.getDesktop().open(new File("C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\CSV_2_XLSX.xlsx"));
+                        Desktop.getDesktop().open(new File(userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\TabelaHorários.xlsx"));
                 } catch (IOException e) {e.printStackTrace();}
         }
         
