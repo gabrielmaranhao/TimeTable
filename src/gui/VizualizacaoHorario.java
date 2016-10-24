@@ -5,14 +5,21 @@
  */
 package gui;
 
+
+import timetable.*;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -21,20 +28,30 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VizualizacaoHorario extends javax.swing.JFrame {
     
     JLabel lab= new JLabel();
+    String userhome = System.getProperty("user.home");
+    JFileChooser chooser = new JFileChooser(userhome +"\\Documents\\NetBeansProjects\\TimeTable\\src\\files");
+   
+   
     
     
+    
+    ArrayList<Aula> aula = new ArrayList<Aula>();
     
     BufferedReader br = null;
     String line = "";
     String cvsSplitBy = ",";
+    int flag;
+    private String[] args;
     
     
-    public VizualizacaoHorario() {
+    public VizualizacaoHorario() throws Exception {
         initComponents();
         
+        TimeTable.main(args);
+         
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(850, 630);            //seta o tamanho da JFrame
+        setSize(400, 300);            //seta o tamanho da JFrame
         setLocationRelativeTo(null);  // coloca a JFrame no centro da tela.
         //setContentPane(sli);          //chama o slide de imagens
     
@@ -48,7 +65,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFiles = new javax.swing.JMenu();
         jMenuItemUparAnexo = new javax.swing.JMenuItem();
-        jMenuHorario = new javax.swing.JMenu();
         jMenuCurso = new javax.swing.JMenu();
         jMenuEngEle = new javax.swing.JMenu();
         jMenuItemEE1 = new javax.swing.JMenuItem();
@@ -102,9 +118,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         jMenuFiles.add(jMenuItemUparAnexo);
 
         jMenuBar1.add(jMenuFiles);
-
-        jMenuHorario.setText("Horários");
-        jMenuBar1.add(jMenuHorario);
 
         jMenuCurso.setText("Cursos");
 
@@ -276,24 +289,121 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     private void jMenuItemUparAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUparAnexoActionPerformed
 
         
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");  //Cria um filtro  
+        
+         while(true){
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files","csv");  //Cria um filtro
+        
          chooser.setFileFilter(filter);  //Altera o filtro do JFileChooser 
          
          int returnVal = chooser.showOpenDialog(this);// abre a janela do filechose neste panel
-         if(returnVal == JFileChooser.APPROVE_OPTION) {       
+    
+         if(returnVal == JFileChooser.APPROVE_OPTION  && "ag-horarios.csv".equals(chooser.getSelectedFile().getName())) {     
+             
          JOptionPane.showMessageDialog(null, "O Arquivo selecionado foi:\n"+chooser.getSelectedFile().getName(), "", JOptionPane.INFORMATION_MESSAGE);
-          
+           
+         LerHorario();
+         
+            try {
+                
+                ExelViewer.FillTables(aula);
+            } catch (Exception ex) {
+                Logger.getLogger(VizualizacaoHorario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+        
+         break;
+        }
+         else{
+             JOptionPane.showMessageDialog(null, "Arquivo inválido.\n Selecione arquivo de HORÁRIOS.", "", JOptionPane.INFORMATION_MESSAGE); 
+         }
+         }
+    }//GEN-LAST:event_jMenuItemUparAnexoActionPerformed
+
+    public void LerHorario(){
+        int i = 0;
+        int profIndex = 0;
+        int salaIndex = 0;
+        
          try {
                 
              br = new BufferedReader(new FileReader(chooser.getSelectedFile()));
              while ((line = br.readLine()) != null) {
+                 
+
+                 if(line.trim().isEmpty()){ 
+                 }
+                 else if(line.substring(0,2).equals("//")){
+                     
+                 }
+                 else{
                     
-                    String[] aux = line.split(cvsSplitBy);
-                    //System.out.println(line);
-                    }
-                
-                
+                     String[] aux = line.split(cvsSplitBy);
+                     
+                     Aula au;
+                     
+                     for(Professor pf : LeituraCSV.PROFESSOR){
+                         
+                         if(Integer.parseInt(aux[2]) == LeituraCSV.PROFESSOR.get(i).getCod()){
+                             
+                           profIndex = i;
+                           //System.out.println(i);
+                           //break;
+                             
+                         }
+                         
+                        i++; 
+                     }
+                     i=0;
+                     
+                     for(SalaAula sa : LeituraCSV.SALA){
+                         
+                         if(Integer.parseInt(aux[3]) == LeituraCSV.SALA.get(i).getCod()){
+                           // System.out.println("SALA DE AULA"+aux[3]);
+                           salaIndex = i;
+                          // break;
+                             
+                         }
+                         
+                        i++; 
+                     }
+                     i=0;
+                     
+                     
+                     
+                     for(Disciplina Ld : LeituraCSV.DISCIPLINA){
+                         //System.out.println("aux: "+aux[0]+"Disp: " + LeituraCSV.DISCIPLINA.get(i).getCodD() );
+                            if(Integer.parseInt(aux[0]) == LeituraCSV.DISCIPLINA.get(i).getCodD() ){
+                                
+                                //System.out.println("Entrous");
+                                au = new Aula(LeituraCSV.DISCIPLINA.get(i).getCodC(),
+                                                LeituraCSV.DISCIPLINA.get(i).getCodP(),
+                                                LeituraCSV.DISCIPLINA.get(i),
+                                                LeituraCSV.TIMESLOT.get(Integer.parseInt(aux[1])-1),
+                                                LeituraCSV.PROFESSOR.get(profIndex),
+                                                LeituraCSV.SALA.get(salaIndex));
+                                
+//                                System.out.println("Curso: " + LeituraCSV.DISCIPLINA.get(i).getCodC() + "\n"
+//                                        + "Periodo: " + LeituraCSV.DISCIPLINA.get(i).getCodP()+ "\n"
+//                                        + "Diciplina: " + LeituraCSV.DISCIPLINA.get(i).getCodD() + "\n"
+//                                        + "Time Slot:" + LeituraCSV.TIMESLOT.get(Integer.parseInt(aux[1])-1).getCod() + "\n"
+//                                        + "Professor: " + LeituraCSV.PROFESSOR.get(profIndex).getCod() + "\n"
+//                                        + "Sala de Aula: " + LeituraCSV.SALA.get(salaIndex).getCod());
+                                
+                                aula.add(au);
+                                //System.out.println("Gravou: "+ aula.get(i).disp.getCodD()+","+aula.get(i).timeSlot.getCod()+","+aula.get(i).prof.getCod()+","+aula.get(i).sala.getCod());
+          
+                            }
+                            i++; 
+                     }
+                     i=0;                   
+                 }            
+            }
+             i=0;
+             for( Aula al : aula){
+            
+                            System.out.println("Gravou: "+ aula.get(i).disp.getCodD()+","+aula.get(i).timeSlot.getCod()+","+aula.get(i).prof.getCod()+","+aula.get(i).sala.getCod());
+                      i++;
+                    }            
          }catch(FileNotFoundException e) {
                    e.printStackTrace();
          }catch (IOException e) {
@@ -308,13 +418,10 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
                     e.printStackTrace();
                     }
                 }
-        }  
         }
-    }//GEN-LAST:event_jMenuItemUparAnexoActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+           
+    }
+      
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -342,7 +449,11 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VizualizacaoHorario().setVisible(true);
+                try {
+                    new VizualizacaoHorario().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(VizualizacaoHorario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -355,7 +466,6 @@ public class VizualizacaoHorario extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEngMec;
     private javax.swing.JMenu jMenuExit;
     private javax.swing.JMenu jMenuFiles;
-    private javax.swing.JMenu jMenuHorario;
     private javax.swing.JMenuItem jMenuItemEC1;
     private javax.swing.JMenuItem jMenuItemEC10;
     private javax.swing.JMenuItem jMenuItemEC11;

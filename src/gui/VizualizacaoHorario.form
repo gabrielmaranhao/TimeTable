@@ -26,11 +26,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuHorario">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Hor&#xe1;rios"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuCurso">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cursos"/>
