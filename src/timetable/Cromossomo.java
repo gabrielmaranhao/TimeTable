@@ -119,17 +119,19 @@ public class Cromossomo{
                 //Faz inteseccao dos horarios disponiveis do professor com o da materia
                 timeslotDisp.retainAll(profTSDis);
                 //Verifica se os timeslots disponiveis eh suficiente para a materia
-                if(timeslotDisp.size() == (h_p + h_t)){
-                    
-                    
+                if(timeslotDisp.size() >= (h_p + h_t)){
+                //caso seja, o professor em questão é selecionado
+                //incrementa o contador
+                    profSel=true;
+                    indexProf++;
                 }
             }
-
 
             //Verifica se a disciplina tem aulas praticas
             if(h_p!=0){
                   //Verifica se o timeslot sorteado esta livre para ser utilizado
-                  for(Integer islot : timeslot){ //Timeslot deve ser disponivel tanto para a disciplina quanto para o professor
+                  for(Integer islot : timeslotDisp){ 
+                    //Timeslot deve ser disponivel tanto para a disciplina quanto para o professor
                       slotaux = this.cromossomo.get(islot);
                       for (AcidoNucleico an : slotaux){
                           if(an.sala.tipo == disc.tipoS_P && an.usado == false){
