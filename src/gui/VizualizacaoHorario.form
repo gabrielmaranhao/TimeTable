@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+            <EtchetBorder/>
+          </Border>
+        </Property>
+      </Properties>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenuFiles">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Arquivo"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemUparAnexo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Carregar Arquivo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemUparAnexoActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuCurso">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cursos"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenuEngEle">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Engenharia El&#xe9;trica"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="1&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="2&#xba; Per&#xed;odo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEE2ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="3&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="4&#xba; Per&#xed;odo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEE4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="5&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="6&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="7&#xba; Per&#xed;odo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEE7ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="8&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE9">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="9&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEE10">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="10&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuEngComp">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Engenharia de Computa&#xe7;&#xe3;o"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="1&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="2&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="3&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="4&#xba; Per&#xed;odo"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEC4ActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="5&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="6&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="7&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="8&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC9">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="9&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC10">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="10&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC11">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="11&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEC12">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="12&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuEngMec">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Engenharia Mec&#xe2;nica"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="1&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="2&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="3&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="4&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM5">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="5&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="6&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM7">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="7&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="8&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM9">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="9&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEM10">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="10&#xba; Per&#xed;odo"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuExit">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Exit"/>
+          </Properties>
+        </Menu>
+      </SubComponents>
+    </Menu>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <EmptySpace min="0" pref="623" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <EmptySpace min="0" pref="392" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+</Form>

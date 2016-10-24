@@ -3,6 +3,8 @@ package timetable;
 /**
  *
  * @author Gabriel
+ * tetse gabriel maranhao
+ * teste 2
  */
  import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,11 +15,10 @@ import java.util.Arrays;
 
 public class LeituraCSV {
 
-        //"C:\\Users\\Gabriel\\Desktop\\ag-informacoes.csv"
-        //"C:\\Users\\Gabriel\\Desktop\\ag-restricoes.csv"
-        String csvFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-informacoes.csv";
-        String csvResFile = "C:\\Users\\Danillo\\Google Drive\\UFG\\Inteligencia Computacional\\trabalho\\ag-restricoes.csv";
+        static String userhome = System.getProperty("user.home"); 
         
+        String csvResFile = userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-restricoes.csv";
+        String csvFile = userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-informacoes.csv";
         
         BufferedReader br = null;
         String line = "";
@@ -25,17 +26,17 @@ public class LeituraCSV {
         int flag;
         
         
-         ArrayList<TimeSlot> TIMESLOT = new ArrayList<TimeSlot>();
+         public static ArrayList<TimeSlot> TIMESLOT = new ArrayList<TimeSlot>();
          
-         ArrayList<Curso> CURSO = new ArrayList<Curso>();
+         public static ArrayList<Curso> CURSO = new ArrayList<Curso>();
          
-         ArrayList<SalaAula> SALA = new ArrayList<SalaAula>();
+         public static ArrayList<SalaAula> SALA = new ArrayList<SalaAula>();
          
-         ArrayList<Disciplina> DISCIPLINA = new ArrayList<Disciplina>();
+         public static ArrayList<Disciplina> DISCIPLINA = new ArrayList<Disciplina>();
          
-         ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
+         public static ArrayList<Estudante> ESTUDANTE = new ArrayList<Estudante>();
          
-         ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
+         public static ArrayList<Professor> PROFESSOR = new ArrayList<Professor>();
          
          //arraylist para armazenar as restrições
          
