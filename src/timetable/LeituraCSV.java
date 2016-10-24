@@ -14,13 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LeituraCSV {
+
         static String userhome = System.getProperty("user.home"); 
         
         String csvResFile = userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-restricoes.csv";
         String csvFile = userhome+"\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-informacoes.csv";
-        //String csvFile = "C:\\arquivosIC\\ag-informacoes.csv";
-        //String csvResFile = "C:\\arquivosIC\\ag-restricoes.csv";
-        
         
         BufferedReader br = null;
         String line = "";
