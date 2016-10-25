@@ -40,9 +40,9 @@ public class LeituraCSV {
          
          //arraylist para armazenar as restrições
          
-         ArrayList<Restricoes> RESTRICAOPROF = new ArrayList<Restricoes>();
+         public static ArrayList<Restricoes> RESTRICAO = new ArrayList<Restricoes>();
          
-         ArrayList<Restricoes> RESTRICAODISC = new ArrayList<Restricoes>();
+         
                
         
 public void LerInfos(){
@@ -286,30 +286,30 @@ public void LerRes(){
     private void LerResDISCIPLINA() {
         //lê as restrições para Disciplinas
         Restricoes restr;
-        int[] aux1 = new int[30];
+        ArrayList<Integer> aux1 = new ArrayList<Integer>();
         String[] aux = line.split(cvsSplitBy);
         //após adicionar cada valor separado por virgula em um array, adiciona somente a partir do segundo no array aux1
         //que representa as restrições
         for(int i=1; i<aux.length;i++){
-            aux1[i-1] = Integer.parseInt(aux[i]);
+            aux1.add(Integer.parseInt(aux[i]));
         }
         // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
         restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
-        RESTRICAODISC.add(restr);
+        RESTRICAO.add(restr);
     }
 
     private void LerResPROFESSOR() {
         //lê as restrições para professores
         Restricoes restr;
-        int[] aux1 = new int[30];
+        ArrayList<Integer> aux1 = new ArrayList<Integer>();
         String[] aux = line.split(cvsSplitBy);
         //mesmo processo utilizado em LerResDisciplina()
         for(int i=1; i<aux.length;i++){
-            aux1[i-1] = Integer.parseInt(aux[i]);
+            aux1.add(Integer.parseInt(aux[i]));
         }
         // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
         restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
-        RESTRICAOPROF.add(restr);
+        RESTRICAO.add(restr);
     }
     
     public void Escrever(){
@@ -334,15 +334,15 @@ public void LerRes(){
         
      //printar as restrições
      //Arrays.toString() ---> metodo que printa todos os elementos de uma array
-        for(Restricoes res : RESTRICAODISC){
-            int p = res.slotsObrig.length;
-            System.out.println("RestrDisc: "+RESTRICAODISC.get(j).codigoDisc+", "+Arrays.toString(RESTRICAODISC.get(j).slotsObrig));
-            j++;
-        }
-        for(Restricoes res : RESTRICAOPROF){
-            System.out.println("RestrProf: "+RESTRICAOPROF.get(k).codigoProf+", "+Arrays.toString(RESTRICAOPROF.get(k).slotsIndisp));
-            k++;
-        }
+//        for(Restricoes res : RESTRICAODISC){
+//            int p = res.slotsObrig.length;
+//            System.out.println("RestrDisc: "+RESTRICAODISC.get(j).codigoDisc+", "+Arrays.toString(RESTRICAODISC.get(j).slotsObrig));
+//            j++;
+//        }
+//        for(Restricoes res : RESTRICAOPROF){
+//            System.out.println("RestrProf: "+RESTRICAOPROF.get(k).codigoProf+", "+Arrays.toString(RESTRICAOPROF.get(k).slotsIndisp));
+//            k++;
+//        }
         
         
     }
