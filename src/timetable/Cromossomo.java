@@ -55,7 +55,7 @@ public class Cromossomo{
             for(int j = 0 ; j < salaaulas.size(); j++){
                 aux.setUsado(false);
                 aux.setSala(salaaulas.get(j));
-                aux.setTimeslot(timeslots.get(i));
+                this.aux.setTimeslot(timeslots.get(i - 1));
                 inner.add(aux);
                 aux = new AcidoNucleico();
             }
@@ -71,7 +71,7 @@ public class Cromossomo{
     
    
     
-    public void GerarIndividuo() {
+    public ArrayList<ArrayList<AcidoNucleico>> GerarIndividuo(){
         
         int cont=0;
         Disciplina disc;
@@ -116,7 +116,11 @@ public class Cromossomo{
             h_t = disc.cargaH_T;
             
             while(!profSel && profList.size()>=indexProf){
-                //Seleciona um professor da lista
+               
+                if (profList.isEmpty()) {
+                    System.out.println(" Pofessor NULL");
+                }//Seleciona um professor da lista
+                
                 prof = profList.get(indexProf);
                 //Busca as restricoes do professor
                 profTSIndis = RetRestProf(prof);
@@ -147,16 +151,20 @@ public class Cromossomo{
             if(profSelecionado==null){
                 //não existe professor para ministrar essa disciplina, logo ela não será dada
             }else{
+                indexProf = 0;
+                profSel = false;
+
             //Verifica se a disciplina tem aulas praticas
             if(h_p!=0){
                 int hp_aux = h_p;
-                //while(hp_aux > 0){
+                int size = 0;
+                while(hp_aux > 0){
                     //Verifica se o timeslot sorteado esta livre para ser utilizado
                     
                     for(Integer islot : timeslotDisp){ 
                         slotaux = this.cromossomo.get(Arruma(islot));
                         
-                        int size = acidAux.size();
+                         size = acidAux.size();
                         for (AcidoNucleico an : slotaux){
                             if(an.sala.tipo == disc.tipoS_P && an.usado == false && !(size==hp_aux)){
                                 an.disc = disc;
@@ -173,20 +181,22 @@ public class Cromossomo{
                         //this.cromossomo.set(islot, slotaux);
                         //cromossomoAux.add(slotaux);
                         slotsUsados.add(islot);
+                         size = acidAux.size();
                         if(size == hp_aux){
                             break;
                         }
                   }
                     hp_aux--;
-                //}
+                }
             }
             if(h_t != 0){
                 int ht_aux = h_t;
+                int size = 0;
                 //while(ht_aux > 0){
                     //Verifica se o timeslot sorteado esta livre para ser utilizado
                     for(Integer islot : timeslotDisp){ 
                         slotaux = this.cromossomo.get(Arruma(islot));
-                        int size = acidAux.size() - h_p;
+                        
                         for (AcidoNucleico an : slotaux){
                             if(an.sala.tipo == disc.tipoS_T && an.usado == false && !(size==ht_aux)){
                                 an.disc = disc;
@@ -201,6 +211,7 @@ public class Cromossomo{
                     //this.cromossomo.set(islot, slotaux);
                     
                     slotsUsados.add(islot);
+                    size = acidAux.size() - h_p;
                     if(size == ht_aux){
                             break;
                         }
@@ -214,8 +225,12 @@ public class Cromossomo{
                 AddRestricaoProf(profSelecionado.cod, u);
             }
             //proxima disciplina
+            if (acidAux.isEmpty()) {
+                    System.out.println("AcidAux NULL");
+                }
             for(AcidoNucleico acid : acidAux){
                 int i=0;
+                int j = 0;
                 int ts = acid.timeslot.cod;
                 int sala=0;
                 
@@ -227,10 +242,10 @@ public class Cromossomo{
                            
                            if(anu.sala.cod == acid.sala.cod){
                                
-                               cromossomo.get(i).set(i, acid);
+                               cromossomo.get(i).set(j, acid);
                            }
                            
-                           
+                         j++;  
                        }
                         
                         
@@ -247,7 +262,7 @@ public class Cromossomo{
             
             
             
-            
+             acidAux.clear();
             }
             
             
@@ -256,6 +271,8 @@ public class Cromossomo{
             cont++;
         
         }
+        System.out.println("FIM, eita lele");
+        return cromossomo;
         
     }
     //TIMESLOTS DISPONÍVEIS 
@@ -499,7 +516,7 @@ public class Cromossomo{
         Collections.shuffle(funcLisProf);
         
         professores.forEach((prof) -> {
-            int [] dispM = prof.getDispM();
+            ArrayList<Integer> dispM = prof.getDispM();
             for(int codDisc: dispM){
                 if(codDisc == disc){
                     retProf.add(prof.getCod());

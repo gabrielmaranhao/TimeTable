@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  *  @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -29,8 +31,7 @@ public class TimeTable {
                 LeituraCSV.PROFESSOR,
                 LeituraCSV.SALA,
                 LeituraCSV.RESTRICAO);
-        
-        cr.GerarIndividuo();
+         ArrayList<ArrayList<AcidoNucleico>> retorno = cr.GerarIndividuo();
         //cr.GerarSlotsRandom();
         
         

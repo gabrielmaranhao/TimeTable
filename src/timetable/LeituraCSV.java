@@ -269,11 +269,11 @@ public void LerRes(){
     private void LerPROFESSOR(String line) {
 
         Professor pf;
-        int[] aux1 = new int[10];
+        ArrayList<Integer> aux1 = new ArrayList<Integer>();
         String[] aux = line.split(cvsSplitBy);
         for(int i=2;i<aux.length;i++){
-          
-            aux1[i-2] = Integer.parseInt(aux[i]);
+            
+            aux1.add(Integer.parseInt(aux[i]));
             // verificar espaçoes vazios
         }
         pf = new Professor(Integer.parseInt(aux[0]),aux[1],aux1);

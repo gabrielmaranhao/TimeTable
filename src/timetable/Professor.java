@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  *  @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -14,9 +16,9 @@ public class Professor {
     
     int cod;
     String nome;
-    int dispM[] = new int[10]; // discilplinas a ministras
+    ArrayList<Integer> dispM = new ArrayList<Integer>(); // discilplinas a ministras
 
-    public Professor(int cod, String nome, int[] dispM) {
+    public Professor(int cod, String nome, ArrayList<Integer> dispM) {
         this.cod = cod;
         this.nome = nome;
         this.dispM = dispM;
@@ -38,11 +40,11 @@ public class Professor {
         this.nome = nome;
     }
 
-    public int[] getDispM() {
+    public ArrayList<Integer> getDispM() {
         return dispM;
     }
 
-    public void setDispM(int[] dispM) {
+    public void setDispM(ArrayList<Integer> dispM) {
         this.dispM = dispM;
     }
     
