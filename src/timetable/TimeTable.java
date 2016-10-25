@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  *  @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -23,8 +25,14 @@ public class TimeTable {
         leitura.LerRes();
         leitura.Escrever();
         
-        Cromossomo cr = new Cromossomo();
-        cr.GerarSlotsRandom();
+        Cromossomo cr = new Cromossomo(LeituraCSV.DISCIPLINA,
+                LeituraCSV.ESTUDANTE,
+                LeituraCSV.TIMESLOT,
+                LeituraCSV.PROFESSOR,
+                LeituraCSV.SALA,
+                LeituraCSV.RESTRICAO);
+         ArrayList<ArrayList<AcidoNucleico>> retorno = cr.GerarIndividuo();
+        //cr.GerarSlotsRandom();
         
         
     }
