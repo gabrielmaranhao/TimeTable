@@ -18,6 +18,7 @@ public class AcidoNucleico {
     Disciplina disc;
     TimeSlot timeslot;
     ArrayList<Estudante> estudantes;
+    
 
     public Professor getProf() {
         return prof;

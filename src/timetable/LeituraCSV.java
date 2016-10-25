@@ -40,9 +40,9 @@ public class LeituraCSV {
          
          //arraylist para armazenar as restrições
          
-         ArrayList<Restricoes> RESTRICAOPROF = new ArrayList<Restricoes>();
+         public static ArrayList<Restricoes> RESTRICAO = new ArrayList<Restricoes>();
          
-         ArrayList<Restricoes> RESTRICAODISC = new ArrayList<Restricoes>();
+         
                
         
 public void LerInfos(){
@@ -295,7 +295,7 @@ public void LerRes(){
         }
         // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
         restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
-        RESTRICAODISC.add(restr);
+        RESTRICAO.add(restr);
     }
 
     private void LerResPROFESSOR() {
@@ -309,7 +309,7 @@ public void LerRes(){
         }
         // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
         restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
-        RESTRICAOPROF.add(restr);
+        RESTRICAO.add(restr);
     }
     
     public void Escrever(){
@@ -334,15 +334,15 @@ public void LerRes(){
         
      //printar as restrições
      //Arrays.toString() ---> metodo que printa todos os elementos de uma array
-        for(Restricoes res : RESTRICAODISC){
-            int p = res.slotsObrig.length;
-            System.out.println("RestrDisc: "+RESTRICAODISC.get(j).codigoDisc+", "+Arrays.toString(RESTRICAODISC.get(j).slotsObrig));
-            j++;
-        }
-        for(Restricoes res : RESTRICAOPROF){
-            System.out.println("RestrProf: "+RESTRICAOPROF.get(k).codigoProf+", "+Arrays.toString(RESTRICAOPROF.get(k).slotsIndisp));
-            k++;
-        }
+//        for(Restricoes res : RESTRICAODISC){
+//            int p = res.slotsObrig.length;
+//            System.out.println("RestrDisc: "+RESTRICAODISC.get(j).codigoDisc+", "+Arrays.toString(RESTRICAODISC.get(j).slotsObrig));
+//            j++;
+//        }
+//        for(Restricoes res : RESTRICAOPROF){
+//            System.out.println("RestrProf: "+RESTRICAOPROF.get(k).codigoProf+", "+Arrays.toString(RESTRICAOPROF.get(k).slotsIndisp));
+//            k++;
+//        }
         
         
     }

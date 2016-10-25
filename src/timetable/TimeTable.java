@@ -23,7 +23,14 @@ public class TimeTable {
         leitura.LerRes();
         leitura.Escrever();
         
-        //Cromossomo cr = new Cromossomo();
+        Cromossomo cr = new Cromossomo(LeituraCSV.DISCIPLINA,
+                LeituraCSV.ESTUDANTE,
+                LeituraCSV.TIMESLOT,
+                LeituraCSV.PROFESSOR,
+                LeituraCSV.SALA,
+                LeituraCSV.RESTRICAO);
+        
+        cr.GerarIndividuo();
         //cr.GerarSlotsRandom();
         
         

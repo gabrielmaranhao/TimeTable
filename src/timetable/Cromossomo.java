@@ -1,6 +1,7 @@
 package timetable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 /*
@@ -32,6 +33,8 @@ public class Cromossomo{
     Random randomGenerator = new Random();
     ArrayList<String> output;
     
+    ArrayList<Integer> ts = new ArrayList<Integer>();
+    
     ArrayList<Integer> todosTS = new ArrayList<Integer>();
 
     
@@ -46,7 +49,9 @@ public class Cromossomo{
         this.timeslots = timeslots;
         
         //popular lista
-        for(int i = 0; i <75; i++){
+        ts = GerarSlotsRandom();
+        Collections.sort(ts);
+        for(int i: ts){
             for(int j = 0 ; j < salaaulas.size(); j++){
                 aux.setUsado(false);
                 aux.setSala(salaaulas.get(j));
@@ -73,20 +78,23 @@ public class Cromossomo{
         ArrayList<TimeSlot> var;
         ArrayList<Integer> timeslotDisp;
         ArrayList<Integer> profList;
+        Professor profSelecionado = null;
+        
         ArrayList<Integer> profTSIndis;
         ArrayList<Integer> profTSDis;
         int prof;
         boolean profSel = false;
         int indexProf = 0;
+        ArrayList<Integer> slotsUsados = new ArrayList<Integer>();
+       ArrayList<AcidoNucleico> acidAux = new ArrayList<AcidoNucleico>();
         
         //randomizar as disciplinas
         Collections.shuffle(disciplinas);
-        while(true){
+        //enquanto der pra distribuir disciplina
+        while(cont<disciplinas.size()){
             int curso;
             int periodo;
             int codD;
-            
-           
             
             disc = disciplinas.get(cont);
             codD = disc.codD;
@@ -94,10 +102,12 @@ public class Cromossomo{
             periodo = disc.codP;
             //Gera horaris disponiveis para o curso
             ArrayList<Integer> timeslot = GerarSlotsCurso(disc.codC);
-            //Se existir restricoes na disciplina elas serao retornadas 
+            //Se existir restricoes na disciplina elas serao retornadas
             timeslotDisp = GerarRestDisc(codD);
-            //Interseccao das restricoes com os horarios do curso
-            timeslot.retainAll(timeslotDisp);
+            //intersecção das restricoes com os horarios do curso
+            if(!timeslotDisp.isEmpty()){
+               timeslot.retainAll(timeslotDisp);
+            }
             //Retorna uma lista randomica de professores que podem dar a disciplina
             profList = GerarProfRand(codD);
             //selecionar timeslots necessários para a disciplina;
@@ -105,7 +115,7 @@ public class Cromossomo{
             h_p = disc.cargaH_P;
             h_t = disc.cargaH_T;
             
-            while(!profSel){
+            while(!profSel && profList.size()>=indexProf){
                 //Seleciona um professor da lista
                 prof = profList.get(indexProf);
                 //Busca as restricoes do professor
@@ -116,38 +126,134 @@ public class Cromossomo{
                 profTSDis.removeAll(profTSIndis);
                 //Copia os timeslots disponiveis da disciplina
                 timeslotDisp = timeslot;
-                //Faz inteseccao dos horarios disponiveis do professor com o da materia
+                //Faz subtração dos horarios disponiveis do professor com o da materia
                 timeslotDisp.retainAll(profTSDis);
                 //Verifica se os timeslots disponiveis eh suficiente para a materia
                 if(timeslotDisp.size() >= (h_p + h_t)){
                 //caso seja, o professor em questão é selecionado
                 //incrementa o contador
                     profSel=true;
-                    indexProf++;
+                    
+                    for(Professor p : LeituraCSV.PROFESSOR){
+                        if(p.cod == profList.get(indexProf)){
+                            profSelecionado = p;
+                            break;
+                        }
+                    } 
+                    
                 }
+                indexProf++;                
             }
-
+            if(profSelecionado==null){
+                //não existe professor para ministrar essa disciplina, logo ela não será dada
+            }else{
             //Verifica se a disciplina tem aulas praticas
             if(h_p!=0){
-                  //Verifica se o timeslot sorteado esta livre para ser utilizado
-                  for(Integer islot : timeslotDisp){ 
-                    //Timeslot deve ser disponivel tanto para a disciplina quanto para o professor
-                      slotaux = this.cromossomo.get(islot);
-                      for (AcidoNucleico an : slotaux){
-                          if(an.sala.tipo == disc.tipoS_P && an.usado == false){
-                              an.disc = disc;
-                              an.usado = true;
-                              
-                          }
-                      }
-                  
-                }
+                int hp_aux = h_p;
+                //while(hp_aux > 0){
+                    //Verifica se o timeslot sorteado esta livre para ser utilizado
+                    
+                    for(Integer islot : timeslotDisp){ 
+                        slotaux = this.cromossomo.get(Arruma(islot));
+                        
+                        int size = acidAux.size();
+                        for (AcidoNucleico an : slotaux){
+                            if(an.sala.tipo == disc.tipoS_P && an.usado == false && !(size==hp_aux)){
+                                an.disc = disc;
+                                an.usado = true;
+                                an.prof = profSelecionado;
+
+                                acidAux.add(an);
+                                break;
+                                //matricular aluno
+                            }
+                            
+                            
+                        }
+                        //this.cromossomo.set(islot, slotaux);
+                        //cromossomoAux.add(slotaux);
+                        slotsUsados.add(islot);
+                        if(size == hp_aux){
+                            break;
+                        }
+                  }
+                    hp_aux--;
+                //}
             }
             if(h_t != 0){
+                int ht_aux = h_t;
+                //while(ht_aux > 0){
+                    //Verifica se o timeslot sorteado esta livre para ser utilizado
+                    for(Integer islot : timeslotDisp){ 
+                        slotaux = this.cromossomo.get(Arruma(islot));
+                        int size = acidAux.size() - h_p;
+                        for (AcidoNucleico an : slotaux){
+                            if(an.sala.tipo == disc.tipoS_T && an.usado == false && !(size==ht_aux)){
+                                an.disc = disc;
+                                an.usado = true;
+                                an.prof = profSelecionado;
+                                acidAux.add(an);
+                                
+                                break;
+                                //matricular aluno
+                            }
+                        }
+                    //this.cromossomo.set(islot, slotaux);
+                    
+                    slotsUsados.add(islot);
+                    if(size == ht_aux){
+                            break;
+                        }
+                  }
+                    ht_aux--;
+                //}
+                
+            }
+            //para cada timeslot que o prof foi atribuido gera uma restrição
+            for(int u : slotsUsados){
+                AddRestricaoProf(profSelecionado.cod, u);
+            }
+            //proxima disciplina
+            for(AcidoNucleico acid : acidAux){
+                int i=0;
+                int ts = acid.timeslot.cod;
+                int sala=0;
+                
+                for(ArrayList<AcidoNucleico> cro : cromossomo){
+    
+                    if(cromossomo.get(i).get(0).timeslot.cod == ts ){
+                        ArrayList<AcidoNucleico> acidAux2 =  cromossomo.get(i);
+                       for(AcidoNucleico anu : acidAux2){
+                           
+                           if(anu.sala.cod == acid.sala.cod){
+                               
+                               cromossomo.get(i).set(i, acid);
+                           }
+                           
+                           
+                       }
+                        
+                        
+                    }
+                   i++;     
+                }
+                
+                
+                
                 
             }
             
             
+            
+            
+            
+            
+            }
+            
+            
+            
+            
+            cont++;
         
         }
         
@@ -190,6 +296,7 @@ public class Cromossomo{
             } 
             }
         //retorna uma lista de ordem randômica com o número do timeslot que será usado para criar o cromossomo.
+           
         printaLista(slots);
         return slots;
     }
@@ -328,7 +435,7 @@ public class Cromossomo{
     
     public ArrayList<Integer> GerarRestDisc(int disc){
                 //armazena os slots nos quais a disciplina pode ser dada, caso houver restrição.
-            int slotsObrig[] = new int[30];
+            //int slotsObrig[] = new int[30];
             
             ArrayList<Integer> aux = new ArrayList<Integer>();
             
@@ -337,20 +444,14 @@ public class Cromossomo{
             for( Restricoes r : restricoes){
                 if(r.restricaoTipo == 2){ //restricao para disciplina
                     if(disc == r.codigoDisc){
-                        slotsObrig = r.slotsObrig;
+                        aux = r.slotsObrig;
                     }
                 }
             }
             
-            for(int i : slotsObrig){
-                aux.add(i);
-            }
-            
             return aux;
     }
-    
-    
-    
+     
     public void TimeslotProfDisc (ArrayList<Integer> timeslot, ArrayList<Professor> profs){
         ArrayList<Restricoes> aux = new ArrayList<Restricoes>();
         ArrayList<Professor> profAux = new ArrayList<Professor>();
@@ -424,6 +525,13 @@ public class Cromossomo{
         return empty;
     }
     
+    
+    public void AddRestricaoProf(int codP, int timeS){
+        restricoes.stream().filter((profRes) -> (profRes.restricaoTipo == 1 && profRes.codigoProf == codP)).forEach((profRes) -> {
+            profRes.slotsIndisp.add(timeS);
+        });
+    }
+    
     //metodo teste para printar a lista randomica
     public void printaLista(ArrayList<Integer> slots){
         int j = 0;
@@ -431,6 +539,19 @@ public class Cromossomo{
             System.out.println("indice "+j+":"+slots.get(j));
             j++;
         }
+    }
+    
+    public int Arruma(int slot){
+        int i = 0;
+        for(ArrayList<AcidoNucleico> cro : cromossomo){
+            
+        
+       if( this.cromossomo.get(i).get(0).timeslot.cod == slot){
+           return i;
+       }
+        i++;
+       }
+        return -1;
     }
 
 }
