@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -13,14 +15,24 @@ public class Estudante {
     
     int cod;
     String nome;
-    int disp[] = new int[10];
+    //int disp[] = new int[10];
+    
+    ArrayList<Integer> displ = new ArrayList<>();
     
     
 
-    public Estudante(int cod, String nome, int[] disp) {
+    public Estudante(int cod, String nome,ArrayList<Integer> displ ) {
         this.cod = cod;
         this.nome = nome;
-        this.disp = disp;
+        this.displ = displ;
+    }
+
+    public ArrayList<Integer> getDispl() {
+        return displ;
+    }
+
+    public void setDispl(ArrayList<Integer> displ) {
+        this.displ = displ;
     }
 
     public int getCod() {
@@ -39,13 +51,7 @@ public class Estudante {
         this.nome = nome;
     }
 
-    public int[] getDisp() {
-        return disp;
-    }
-
-    public void setDisp(int[] disp) {
-        this.disp = disp;
-    }
+   
     
     
 }

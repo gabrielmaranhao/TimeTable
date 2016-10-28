@@ -23,6 +23,9 @@ public class SalaAula {
         this.capacidade = capacidade;
     }
 
+    public SalaAula() {
+    }
+
     public int getCod() {
         return cod;
     }

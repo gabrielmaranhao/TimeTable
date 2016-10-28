@@ -41,6 +41,7 @@ public class LeituraCSV {
          //arraylist para armazenar as restrições
          
          public static ArrayList<Restricoes> RESTRICAO = new ArrayList<Restricoes>();
+    
          
          
                
@@ -178,11 +179,7 @@ public void LerRes(){
                 else if(flag==2){
                     LerResPROFESSOR();
                 }
-                
-                   
-              
-                
-                
+  
                 }
             }
             
@@ -240,25 +237,35 @@ public void LerRes(){
 
     private void LerDISCIPLINA(String line) {
         
+        ArrayList<Integer> horarios = new ArrayList<Integer>();
         Disciplina ds;
         String[] aux = line.split(cvsSplitBy);
-        ds = new Disciplina(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), Integer.parseInt(aux[2]), aux[3],Integer.parseInt(aux[4]), Integer.parseInt(aux[5]), Integer.parseInt(aux[6]), Integer.parseInt(aux[7]));
+        ds = new Disciplina(Integer.parseInt(aux[0]), 
+                Integer.parseInt(aux[1]), 
+                Integer.parseInt(aux[2]), 
+                aux[3],Integer.parseInt(aux[4]), 
+                Integer.parseInt(aux[5]), 
+                Integer.parseInt(aux[6]), 
+                Integer.parseInt(aux[7]),
+                horarios);
           DISCIPLINA.add(ds);
           
     }
     
 
     private void LerESTUDANTE(String line) {
-
+        ArrayList<Integer> auxList = new ArrayList<Integer>();
         Estudante es;
         int[] aux1 = new int[10];
         String[] aux = line.split(cvsSplitBy);
         for(int i=2;i<aux.length;i++){
           
-            aux1[i-2] = Integer.parseInt(aux[i]);
-            // verificar espaçoes vazios
+            //aux1[i-2] = Integer.parseInt(aux[i]);
+            if(Integer.parseInt(aux[i])!=0){
+            auxList.add(Integer.parseInt(aux[i]));
+            }
         }
-        es = new Estudante(Integer.parseInt(aux[0]),aux[1],aux1);
+        es = new Estudante(Integer.parseInt(aux[0]),aux[1],auxList);
         ESTUDANTE.add(es);
         
         
@@ -267,16 +274,20 @@ public void LerRes(){
     }
 
     private void LerPROFESSOR(String line) {
-
+        ArrayList<Integer> auxList = new ArrayList<Integer>();
         Professor pf;
+        ArrayList<Integer> horarios = new ArrayList<Integer>();
         int[] aux1 = new int[10];
         String[] aux = line.split(cvsSplitBy);
         for(int i=2;i<aux.length;i++){
           
-            aux1[i-2] = Integer.parseInt(aux[i]);
+            //aux1[i-2] = Integer.parseInt(aux[i]);
+            if(Integer.parseInt(aux[i])!=0){
+            auxList.add(Integer.parseInt(aux[i]));
+            }
             // verificar espaçoes vazios
         }
-        pf = new Professor(Integer.parseInt(aux[0]),aux[1],aux1);
+        pf = new Professor(Integer.parseInt(aux[0]),aux[1],auxList,horarios);
         PROFESSOR.add(pf);
         
         
@@ -284,32 +295,82 @@ public void LerRes(){
     }
     
     private void LerResDISCIPLINA() {
-        //lê as restrições para Disciplinas
-        Restricoes restr;
-        ArrayList<Integer> aux1 = new ArrayList<Integer>();
+        
         String[] aux = line.split(cvsSplitBy);
-        //após adicionar cada valor separado por virgula em um array, adiciona somente a partir do segundo no array aux1
-        //que representa as restrições
-        for(int i=1; i<aux.length;i++){
-            aux1.add(Integer.parseInt(aux[i]));
+        ArrayList<Integer> ts_aux = new ArrayList<Integer>();
+        
+        
+        for(Disciplina disp : DISCIPLINA ){
+            
+            if(Integer.parseInt(aux[0]) == disp.codD ){
+                
+                for(int i = 1; i< aux.length ; i++){
+                    
+                    ts_aux.add(Integer.parseInt(aux[i]));
+                    
+                   
+                }
+                disp.setHorariosAptos(ts_aux);
+                
+            }
+            
+            
         }
-        // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
-        restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
-        RESTRICAO.add(restr);
+       //lê as restrições para Disciplinas
+//        Restricoes restr;
+//        ArrayList<Integer> aux1 = new ArrayList<Integer>();
+//        String[] aux = line.split(cvsSplitBy);
+//        //após adicionar cada valor separado por virgula em um array, adiciona somente a partir do segundo no array aux1
+//        //que representa as restrições
+//        for(int i=1; i<aux.length;i++){
+//            aux1.add(Integer.parseInt(aux[i]));
+//        }
+//        // 2 = CODIGO PARA RESTRIÇÃO DE DISCIPLINA, AUX[0] É O CODIGO DA DISCIPLINA, AUX1 ARRAY COM OS TIMESLOTS RESERVADOS
+//        restr = new Restricoes(2, Integer.parseInt(aux[0]), aux1);
+//        RESTRICAO.add(restr);
     }
 
     private void LerResPROFESSOR() {
-        //lê as restrições para professores
-        Restricoes restr;
-        ArrayList<Integer> aux1 = new ArrayList<Integer>();
+        
         String[] aux = line.split(cvsSplitBy);
-        //mesmo processo utilizado em LerResDisciplina()
-        for(int i=1; i<aux.length;i++){
-            aux1.add(Integer.parseInt(aux[i]));
+        ArrayList<Integer> ts_aux = new ArrayList<Integer>();
+        for(Professor prf : PROFESSOR ){
+            
+            if(Integer.parseInt(aux[0]) == prf.cod ){
+                
+                for(int i = 1; i< aux.length ; i++){
+                    
+                    ts_aux.add(Integer.parseInt(aux[i])); 
+     
+                }
+                prf.setHorariosNAOaptos(ts_aux);           
+            }
+            
+            
         }
-        // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
-        restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
-        RESTRICAO.add(restr);
+
+        
+
+
+
+
+
+
+
+
+
+
+////lê as restrições para professores
+//        Restricoes restr;
+//        ArrayList<Integer> aux1 = new ArrayList<Integer>();
+//        String[] aux = line.split(cvsSplitBy);
+//        //mesmo processo utilizado em LerResDisciplina()
+//        for(int i=1; i<aux.length;i++){
+//            aux1.add(Integer.parseInt(aux[i]));
+//        }
+//        // 1 = CODIGO PARA RESTRIÇÃO DE PROFESSOR, AUX[0] É O CODIGO DO PROF, AUX1 ARRAY COM OS TIMESLOTS INDISPONIVEIS
+//        restr = new Restricoes(1, Integer.parseInt(aux[0]), aux1);
+//        RESTRICAO.add(restr);
     }
     
     public void Escrever(){

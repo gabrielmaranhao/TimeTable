@@ -10,61 +10,53 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Set;
 /**
  *
  * @author Gabriel
  */
 public class EscritaCSV {
+
+    public EscritaCSV() {
+    }
     
     
-    public void escreveInfos(ArrayList<ArrayList<AcidoNucleico>> cromossomo) throws FileNotFoundException{
+    public void escreveInfos(Cromossomo2 cromossomo) throws FileNotFoundException{
         
         PrintWriter pw = new PrintWriter(new File("C:\\Users\\Gabriel\\Documents\\NetBeansProjects\\TimeTable\\src\\files\\ag-horarios.csv"));
         StringBuilder sb = new StringBuilder();
-        int i=0;
         
-        for(ArrayList<AcidoNucleico> arry : cromossomo){
+        
+        for(int c = 1; c<=3 ; c++){
             
-            for(AcidoNucleico acid : cromossomo.get(i)){
+            for(int p = 1; p<=10; p++){
+               Set<Integer> keysetTS =  cromossomo.cromossomo.get(c).gene.get(p).acidoNucleico.keySet();
+               
+                for(Integer TS : keysetTS){
+                    
+                            
+                     sb.append(Integer.toString(cromossomo.cromossomo.get(c).gene.get(p).acidoNucleico.get(TS).disc.codD));
+                    sb.append(',');
                 
-                if(acid.usado == false){
+                    sb.append(Integer.toString(cromossomo.cromossomo.get(c).gene.get(p).acidoNucleico.get(TS).timeslot.cod));
+                    sb.append(',');
                 
-                    // faz nada
-                }
-                else{
-              
-                sb.append(Integer.toString(acid.disc.codD));
-                sb.append(',');
+                    sb.append(Integer.toString(cromossomo.cromossomo.get(c).gene.get(p).acidoNucleico.get(TS).prof.cod));
+                    sb.append(',');
                 
-                sb.append(Integer.toString(acid.timeslot.cod));
-                sb.append(',');
-                
-                sb.append(Integer.toString(acid.prof.cod));
-                sb.append(',');
-                
-                sb.append(Integer.toString(acid.sala.cod));
-                sb.append('\n');
-                
-                }
-                
-                
+                    sb.append(Integer.toString(cromossomo.cromossomo.get(c).gene.get(p).acidoNucleico.get(TS).sala.cod));
+                    sb.append('\n');
+                             
+               }
             }
-           
-            
-          i++;
-          
         }
-        
-        
+     
         
         pw.write(sb.toString());
         pw.close();
         System.out.println("done!");
-        
-        
-    }
-    
-    
-    
+ 
+     
+}
     
 }

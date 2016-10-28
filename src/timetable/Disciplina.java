@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -19,8 +21,20 @@ public class Disciplina {
     int tipoS_T; // tipo de sala teorica
     int cargaH_P; //carga hrária pratica
     int tipoS_P;  // tipo sala pratica
-
-    public Disciplina(int codD, int codC, int codP, String descri, int cargaH_T, int tipoS_T, int cargaH_P, int tipoS_P) {
+    
+    ArrayList<Integer> horariosAptos = new ArrayList<>();
+    
+    public Disciplina(int codD, 
+            int codC, 
+            int codP, 
+            String descri, 
+            int cargaH_T,
+            int tipoS_T,
+            int cargaH_P, 
+            int tipoS_P,
+            ArrayList<Integer> horariosAptos) 
+    
+    {
         this.codD = codD;
         this.codC = codC;
         this.codP = codP;
@@ -29,6 +43,18 @@ public class Disciplina {
         this.tipoS_T = tipoS_T;
         this.cargaH_P = cargaH_P;
         this.tipoS_P = tipoS_P;
+        this.horariosAptos = horariosAptos;
+    }
+
+    public Disciplina() {
+    }
+
+    public ArrayList<Integer> getHorariosAptos() {
+        return horariosAptos;
+    }
+
+    public void setHorariosAptos(ArrayList<Integer> horariosAptos) {
+        this.horariosAptos = horariosAptos;
     }
 
     public int getCodD() {

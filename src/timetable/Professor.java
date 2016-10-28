@@ -5,6 +5,8 @@
  */
 package timetable;
 
+import java.util.ArrayList;
+
 /**
  *
  *  @author Gabriel M., Gabriel O., Danillo, Marcos
@@ -14,12 +16,34 @@ public class Professor {
     
     int cod;
     String nome;
-    int dispM[] = new int[10]; // discilplinas a ministras
+    ArrayList<Integer> dispMi = new ArrayList<>();
+    //int dispM[] = new int[10]; // discilplinas a ministras
+    ArrayList<Integer> horariosNAOaptos = new ArrayList<>();
 
-    public Professor(int cod, String nome, int[] dispM) {
+    public Professor(int cod, String nome, ArrayList<Integer> dispMi, ArrayList<Integer> horariosNAOaptos) {
         this.cod = cod;
         this.nome = nome;
-        this.dispM = dispM;
+        this.dispMi = dispMi;
+        this.horariosNAOaptos = horariosNAOaptos;
+    }
+
+    public Professor() {
+    }
+
+    public ArrayList<Integer> getDispMi() {
+        return dispMi;
+    }
+
+    public void setDispMi(ArrayList<Integer> dispMi) {
+        this.dispMi = dispMi;
+    }
+
+    public ArrayList<Integer> getHorariosNAOaptos() {
+        return horariosNAOaptos;
+    }
+
+    public void setHorariosNAOaptos(ArrayList<Integer> horariosAptos) {
+        this.horariosNAOaptos = horariosAptos;
     }
 
     public int getCod() {
@@ -38,14 +62,7 @@ public class Professor {
         this.nome = nome;
     }
 
-    public int[] getDispM() {
-        return dispM;
-    }
-
-    public void setDispM(int[] dispM) {
-        this.dispM = dispM;
-    }
-    
+   
     
     
 }

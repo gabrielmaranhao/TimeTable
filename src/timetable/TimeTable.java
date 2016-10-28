@@ -21,23 +21,30 @@ public class TimeTable {
     public static void main(String[] args) throws FileNotFoundException {
        
         LeituraCSV leitura = new LeituraCSV();
-        ArrayList<ArrayList<AcidoNucleico>> cromossomo = new ArrayList<ArrayList<AcidoNucleico>>();
+        
+        Cromossomo2 cromossomo = new Cromossomo2();
         EscritaCSV escrita = new EscritaCSV();
         
         leitura.LerInfos();
         leitura.LerRes();
-        leitura.Escrever();
         
-        Cromossomo cr = new Cromossomo(LeituraCSV.DISCIPLINA,
-                LeituraCSV.ESTUDANTE,
-                LeituraCSV.TIMESLOT,
-                LeituraCSV.PROFESSOR,
-                LeituraCSV.SALA,
-                LeituraCSV.RESTRICAO);
+        GerarIndividuo ind = new GerarIndividuo();
         
-        cr.GerarIndividuo();
-        cromossomo = cr.GerarIndividuo();
+        cromossomo = ind.Individuo();
         escrita.escreveInfos(cromossomo);
+        //System.out.println("FIM");
+        //leitura.Escrever();
+        
+//        Cromossomo cr = new Cromossomo(LeituraCSV.DISCIPLINA,
+//                LeituraCSV.ESTUDANTE,
+//                LeituraCSV.TIMESLOT,
+//                LeituraCSV.PROFESSOR,
+//                LeituraCSV.SALA,
+//                LeituraCSV.RESTRICAO);
+//        
+//        cr.GerarIndividuo();
+//        cromossomo = cr.GerarIndividuo();
+//        escrita.escreveInfos(cromossomo);
         //cr.GerarSlotsRandom();
         
         
