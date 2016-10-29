@@ -17,10 +17,26 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
+/*
+Apos ler o código e entender +- seu funcionamento!
 
+ERROS enncontrados:
+
+1) Me parece que todos os 3 genes estão com mesmas discuplinas, porque na geração das tabelas, 
+só é gerado de um curso(porem no debus da pra ver que o cromossomo ta compreto com todos os cursos)
+... ainda não sei, pode ser erro na geração tb, ou na vizualização...
+
+2) quase todo periodo fica uma disciplina com somente uma aula, não respeitando sua carga horária
+
+3) quando rodar o programa quase sempr vai dar erro, mas algumas vezes da certo...isso pq
+tem um array que ta ficando vaazio(as vezes fica) e eu requisito acesso dele o TSAptosDispProf
+
+
+*/
 
 public class GerarIndividuo {
     
+     // Copia a base de tados para as seguintes variaveis                           
      ArrayList<Professor> TodosProf = new ArrayList<Professor>(LeituraCSV.PROFESSOR);
      ArrayList<Disciplina> TodosDisp = new ArrayList<Disciplina>( LeituraCSV.DISCIPLINA);
      ArrayList<SalaAula> TodosSala = new ArrayList<SalaAula>(LeituraCSV.SALA);
@@ -29,57 +45,57 @@ public class GerarIndividuo {
      ArrayList<Curso> TodosCur = new ArrayList<Curso>(LeituraCSV.CURSO);
      ArrayList<Integer> TodosPer =new ArrayList<Integer>();
      
-     Random randomGenerator = new Random();
+     Random randomGenerator = new Random(); // nao uso
      
 //     Professor prof;
 //     Disciplina disp;
      ArrayList<Estudante> estu;
      TimeSlot ts;
      
-      Molecula molecula = new Molecula();
-      AcidoNucleico2 acidos = new AcidoNucleico2();
-      Gene gen = new Gene();
-      Cromossomo2 cro = new Cromossomo2();
+      Molecula molecula = new Molecula(); // OBJETO, representa uma aula, com um prof, uma discipina e uma sala
+      AcidoNucleico2 acidos = new AcidoNucleico2(); //HASH MAP Key = int TimeSlot , representa todas as aulas de um determinado período
+      Gene gen = new Gene(); // HASH MAP Key = int Periodo, representa todos os períodos de um curso
+      Cromossomo2 cro = new Cromossomo2(); // HASH MAP Key = int curso, representa todos os cursos de uma Escola (cromossomo FINAL)
       
     
     public Cromossomo2 Individuo(){
-          RandTudo();
-          RandTudo();
+          RandTudo(); // randomiza a base de dados
+          RandTudo(); // duas vezes, porque sim
           
-          for(int c = 1; c<=3; c++){
+          for(int c = 1; c<=3; c++){  // percorrer todos os cursos
           
-                int curso = CursoEscolhido();
-                TodosPer = preenchePeriodo();
+                int curso = CursoEscolhido();  // retorna um curso aleatório
+                TodosPer = preenchePeriodo();  // preenche array de períodos 
                 
-                for(int p = 1; p<=10; p++ ){
+                for(int p = 1; p<=10; p++ ){  //percorre todos os periodos desse curso
                     
-                     ArrayList<TimeSlot> TodosTS = new ArrayList<>(LeituraCSV.TIMESLOT);
-                      RandTudo();
+                     ArrayList<TimeSlot> TodosTS = new ArrayList<>(LeituraCSV.TIMESLOT); // copia base de dados de TimeSlot
+                      RandTudo(); // randomiza de novo tudo
                         
-                        int periodo = PeriodoEscolhido();
+                        int periodo = PeriodoEscolhido();  // retorna um periodo 
           
-                        ArrayList<TimeSlot> ts = TSCurso(curso);
+                        ArrayList<TimeSlot> ts = TSCurso(curso); // retorna os TS válidos para tal curso
                         
-                        
-                        acidos = GerarMoleculaEacidoNucleico(ts, curso, periodo);
-                        GerarGene(acidos,periodo);
+                        //OBS cada molécula é um item do HASHMAP Acido Nucleico, onde a chave é o timeSlot
+                        acidos = GerarMoleculaEacidoNucleico(ts, curso, periodo);  //retorna os acidos nucleicos desse periodo de tal curso 
+                        GerarGene(acidos,periodo);// adiciona o acido no respectivo periodo(que é a chave do HashMap)
   
                 }
-                cro.cromossomo.put(curso,gen);
+                cro.cromossomo.put(curso,gen);// adiciona o gene ao cromossomo, no respectivo curso(que é a chave do HASHMAP)
   
           }
-          return cro;
+          return cro; // retorna o cromossomo completo, individuo
           
       }
     
     public void GerarGene(AcidoNucleico2 acido, int periodo){
         
 
-        gen.gene.put(periodo,acido);
+        gen.gene.put(periodo,acido); // adiciona o acido nucleico ao gene, periodo é a chave
    
     } 
       
-    public AcidoNucleico2 GerarMoleculaEacidoNucleico(ArrayList<TimeSlot> TsAptos, int curso, int periodo){ // se periodo for 11 ou 12 não existem disciplinas
+    public AcidoNucleico2 GerarMoleculaEacidoNucleico(ArrayList<TimeSlot> TsAptos, int curso, int periodo){ // gera todas as moléculas(aulas) e o acido nucleico(periodo) onde elas ficaram
         Molecula mol;
         AcidoNucleico2 acido = new AcidoNucleico2();
         
@@ -88,189 +104,188 @@ public class GerarIndividuo {
         SalaAula salaT = new SalaAula();
         SalaAula salaP = new SalaAula();;
         SalaAula salaPE = new SalaAula();;
-        ArrayList<Disciplina> disciplinasCursoPerido = new ArrayList<Disciplina>();
+        ArrayList<Disciplina> disciplinasCursoPerido = new ArrayList<Disciplina>(); //disciplinas de um período
         
-        ArrayList<TimeSlot> TSAptosDispProf = new ArrayList<TimeSlot>();
-         ArrayList<TimeSlot> remover = new ArrayList<TimeSlot>();
-         ArrayList<Professor> ProfApto = new ArrayList<Professor>();
-         ArrayList<TimeSlot> TSOcupados = new ArrayList<TimeSlot>();
+        ArrayList<TimeSlot> TSAptosDispProf = new ArrayList<TimeSlot>();  // TS aptos pelo curso,  disciplina e pelo prof
+         ArrayList<TimeSlot> remover = new ArrayList<TimeSlot>(); // auxiliar de remoçao
+         ArrayList<Professor> ProfApto = new ArrayList<Professor>(); // professores aptos para disciplina
+         ArrayList<TimeSlot> TSOcupados = new ArrayList<TimeSlot>(); // TS que estão ocupados durante o periodo
          
          
          
-         Collections.shuffle(TodosSala);
+         Collections.shuffle(TodosSala);  // randomiza as salas
          
-        for(SalaAula sal : TodosSala){
+         //Só existira um tipo de sala por período, cada periodo vai ter suas 3 salas distintas
+        for(SalaAula sal : TodosSala){   // percorre sala por sala
             
             if(sal.tipo == 1){
                 
-                salaT = sal;
+                salaT = sal;   // seleciona uma sala do tipo 1, Teorica
                 
             }
-            if(sal.tipo == 2){
+            if(sal.tipo == 2){  
                 
-                salaP = sal;
+                salaP = sal;  // seleciona uma saa do tipo 2, Prática
             }
-            if(sal.tipo == 3){
+            if(sal.tipo == 3){ 
                 
-                salaPE = sal;
+                salaPE = sal; // seleciona uma sala do tipo 3, Pratica Especial
             }
-            if((salaP.tipo != 0 && salaT.tipo != 0 && salaPE.tipo != 0)){
+            if((salaP.tipo != 0 && salaT.tipo != 0 && salaPE.tipo != 0)){  // se todas as 3 salas foram selecionas, sai do loop
                 break;
             
         }
         }
         
         
-       for(Disciplina disp : TodosDisp){
+       for(Disciplina disp : TodosDisp){ // percorre todas as disciplinas
            
-           if(disp.codC == curso && disp.codP == periodo){
+           if(disp.codC == curso && disp.codP == periodo){ //compara se a disciplina tem o código do curso e do periodo igual aao curso e periodo passados no parametro
                
-               disciplinasCursoPerido.add(disp);
+               disciplinasCursoPerido.add(disp); // se achar a disciplina, adiciona nessa liasta de disciplinas
                
                 }
            }
-           Collections.shuffle(disciplinasCursoPerido);
+           Collections.shuffle(disciplinasCursoPerido); // randomiza esse array de disciplinas 
            
            while(disciplinasCursoPerido.size() != 0){  // percorre todas as disciplinas desse curdo deste periodo
                
-               disciplina = disciplinasCursoPerido.get(0);
-               ArrayList<TimeSlot> TSAptosDisp = new ArrayList<TimeSlot>(TsAptos);
+               disciplina = disciplinasCursoPerido.get(0); // pega a disciplina
+               ArrayList<TimeSlot> TSAptosDisp = new ArrayList<TimeSlot>(TsAptos); // array de horarios
                
             //Set<Integer> keyset = acidos.acidoNucleico.keySet();
                
              
 //               
-               TSAptosDisp.removeAll(TSOcupados);
+               TSAptosDisp.removeAll(TSOcupados);  // caso tenha TS ocupado dentro do array de TS aptos para a disciplina, remove todos
                
-               if(disciplina.horariosAptos.size() == 0){  //verifica se tem restrição de horário
+               if(disciplina.horariosAptos.size() == 0){  //verifica se a disciplina tem restrição de horário
                     //se nao tem, todos TS sao aptos paa tal disciplina
                    
                }
-               else{
+               else{ // se tem
                    
           
 
-                   for (TimeSlot tis : TsAptos) {
+                   for (TimeSlot tis : TsAptos) { // percorre todos os TS aptos para tal curso
                        
-                           if(disciplina.horariosAptos.contains(tis.cod)){
-                               
-                               remover.add(tis);  //se tem, TS aptos passam a ser os da disciplina                               
+                           if(disciplina.horariosAptos.contains(tis.cod)){ // se conter dentro dos horários que a disciplina deve ser ministrada
+                                                                           // o mesmo TS
+                               remover.add(tis);  // adiciona na "remover" os TS (remover nesse caso nao faz o papel de remoção)                              
                            }
                            
                            
                        }
                    
-                      if(!remover.isEmpty()){
-                        TSAptosDisp.retainAll(remover);
-                      }
+                      if(!remover.isEmpty()){ //se remover não está vazia
+                        TSAptosDisp.retainAll(remover);  // intersecção dos aptos para disciplina com o spresentes em remover, para manter somente
+                      }                                  //mater somente os TS que a disciplina pode ser ministrada
                     
-                    remover.clear();
+                    remover.clear(); //limpa a "remover"
                    
                }
                
-               for( Professor prof : TodosProf){
+               for( Professor prof : TodosProf){  // percorre todos os prof
                    int i = 0;
                    
-                   while(i<= prof.dispMi.size()-1){
+                   while(i<= prof.dispMi.size()-1){  // enqunato i menor que o taanho do array disciplinas que o prof pode ministrr
                        
-                       if(prof.dispMi.get(i) == disciplina.getCodD()){
-                           
-                           ProfApto.add(prof);
+                       if(prof.dispMi.get(i) == disciplina.getCodD()){ // se a disciplina que o prof pode ministras for igual a
+                                                                        // disciplina já escolhina
+                           ProfApto.add(prof);  // adiciona na tabela de profs ue podem ministrar tal disciplina
                           
                        }
-                       i++;
+                       i++; // vai para a prof disciplina ministrada por tal prof
                        
                    }
                     
-                   if(professor.cod != 0){
+                   //if(professor.cod != 0){ 
                        break;
 
-                   }
+                  // }
                    
                }
-               TSAptosDispProf = TSAptosDisp;
+               TSAptosDispProf = TSAptosDisp; // lista de TS de horarios aptos final recebe as aptas
                
-               if(professor.horariosNAOaptos.size() == 0){
+               if(professor.horariosNAOaptos.size() == 0){// se horários NÃO disaponivis do professor nao existir
                    
-                   TSAptosDispProf = TSAptosDisp;
+                   TSAptosDispProf = TSAptosDisp; // lista de TS aptos continua a mesma
                    
                    
                }
-               else{
+               else{ // se existir
                
-                    for(TimeSlot ts : TSAptosDisp){
+                    for(TimeSlot ts : TSAptosDisp){  // percorrer todos os TS Aptos
                    
-                        if(professor.horariosNAOaptos.contains(ts.cod)){
+                        if(professor.horariosNAOaptos.contains(ts.cod)){  // olha nos horaris do prof se contem tal TS
                             //TSAptosDisp.remove(ts);
-                             remover.add(ts);
+                             remover.add(ts);// se sim remover coloca esse TS
   
                          }    
                     }
                     
                
-                    for(int j =0 ; j<=remover.size()-1;j++){
-                        TSAptosDispProf.remove(remover.get(j));
+                    for(int j =0 ; j<=remover.size()-1;j++){  // percorre toda a remove
+                        TSAptosDispProf.remove(remover.get(j));  // usa remover para retirar do s Aptos todos que tem em remover
                     }
-                    remover.clear();
+                    remover.clear(); // limpa remover
                     
                }
                
-               Collections.shuffle(TSAptosDispProf);
-               Collections.shuffle(ProfApto);
+               Collections.shuffle(TSAptosDispProf); // embaralha a lsita final de TS disponiveis para aquela disciplina
+               Collections.shuffle(ProfApto); // embaralha a lista de prof aptos de ministrar tal disp.
                
                
-               if(TSAptosDispProf.size() > (disciplina.cargaH_P + disciplina.cargaH_T)){ // quantidade de TS disponiveis ao final, é maior que o número de Horas de aula?
+               if(TSAptosDispProf.size() > (disciplina.cargaH_P + disciplina.cargaH_T)){ // quantidade de TS disponiveis ao final, é maior que o número de Horas de aula dessa disciplina?
                    
                    int i = 0;
-                   Collections.shuffle(TSAptosDispProf);
+                   Collections.shuffle(TSAptosDispProf); //embaralha de novo
                    
-                   for(int h_p = 1; h_p <= disciplina.cargaH_P; h_p++){
+                   for(int h_p = 1; h_p <= disciplina.cargaH_P; h_p++){  // para todos os horário de aula Pratica dess disciplina
                        
-                       if(salaP.tipo == disciplina.tipoS_P){
+                       if(salaP.tipo == disciplina.tipoS_P){ // se a sala pratica for rnormal
                            
-                           if(TSAptosDispProf.size() ==  0 || ProfApto.size() == 0){
+                           if(TSAptosDispProf.size() ==  0 || ProfApto.size() == 0){   // teste de debug, cai aqu ou não, não era pra entrar aqui
                            System.out.println("1) i > TTSAptosDispProf.size"+i+"<-i"+"Disp:"+disciplina.codD);
                        }
                        
-                       mol = new Molecula(TSAptosDispProf.get(0), ProfApto.get(0), disciplina, salaP, null);
-                       acido.acidoNucleico.put(TSAptosDispProf.get(0).cod, mol);
+                       mol = new Molecula(TSAptosDispProf.get(0), ProfApto.get(0), disciplina, salaP, null); //cia a molécula passando,Prof, disp, TS, e sala, falta alunos
+                       acido.acidoNucleico.put(TSAptosDispProf.get(0).cod, mol);// adiciona no ácido nucleioco essa molécula, passando o TS de key
                        
-                       ProfApto.get(0).horariosNAOaptos.add(TSAptosDispProf.get(0).cod);
+                       ProfApto.get(0).horariosNAOaptos.add(TSAptosDispProf.get(0).cod); // adiciona esse horário como Não Apto para esse prof
                        
                        
-                       TSOcupados.add(TSAptosDispProf.get(0));  
-                       TodosSala.remove(salaP);
+                       TSOcupados.add(TSAptosDispProf.get(0));  // adiciona esse TS ao sslots ocupados 
+                       TodosSala.remove(salaP); // remove a sala de uso, para no proximo periodo não ter mais ela
   
                        }
                        
-                       if(salaPE.tipo == disciplina.tipoS_P){
+                       if(salaPE.tipo == disciplina.tipoS_P){ // se a sala for pratica especial
                            
-                            if(TSAptosDispProf.size() ==  0 || ProfApto.size() == 0){
+                            if(TSAptosDispProf.size() ==  0 || ProfApto.size() == 0){// teste de debug, cai aqu ou não, não era pra entrar aqui
                            System.out.println("2) i > TTSAptosDispProf.size"+i+"<-i"+"Disp:"+disciplina.codD);
                        }
                        
-                       mol = new Molecula(TSAptosDispProf.get(0), ProfApto.get(0), disciplina, salaPE, null);
-                       acido.acidoNucleico.put(TSAptosDispProf.get(0).cod, mol);
+                       mol = new Molecula(TSAptosDispProf.get(0), ProfApto.get(0), disciplina, salaPE, null); //cia a molécula passando,Prof, disp, TS, e sala, falta alunos
+                       acido.acidoNucleico.put(TSAptosDispProf.get(0).cod, mol);// adiciona no ácido nucleioco essa molécula, passando o TS de key
                        
-                       ProfApto.get(0).horariosNAOaptos.add(TSAptosDispProf.get(0).cod);
+                       ProfApto.get(0).horariosNAOaptos.add(TSAptosDispProf.get(0).cod);// adiciona esse horário como Não Apto para esse prof
                        
-                       TSOcupados.add(TSAptosDispProf.get(0));
+                       TSOcupados.add(TSAptosDispProf.get(0));// adiciona esse TS ao sslots ocupados 
 
-                        TodosSala.remove(salaPE);
+                        TodosSala.remove(salaPE); // remove a sala de uso, para no proximo periodo não ter mais ela
                        }
-                       
                       
-                        
-
                        i++;
                    }
                    
                    Collections.shuffle(TSAptosDispProf);
                    
                    int j = 0;
-                   for(int h_t = 1; h_t <= disciplina.cargaH_T; h_t++){
+                   for(int h_t = 1; h_t <= disciplina.cargaH_T; h_t++){ // para todos os horário de aula Teoricax dess disciplina
                        Collections.shuffle(TSAptosDispProf);
                       
+                       //FAZ MESMA COISAQUE OS OUTROS LA ENCIMA
                        
                       if(TSAptosDispProf.size() ==  0 || ProfApto.size() == 0) {
                            System.out.println("3) i > TTSAptosDispProf.size"+j+"<-i"+"Disp:"+disciplina.codD);
@@ -288,26 +303,28 @@ public class GerarIndividuo {
                        i++;
                    }
                    
-                   disciplinasCursoPerido.remove(disciplina);
-                   TSAptosDispProf.clear();
-                   TodosDisp.remove(disciplina);
+                   //apos finalizar todas as moléculas, colocou todas as aulas da disciplina escolhida
+                   
+                   disciplinasCursoPerido.remove(disciplina); // remove da lista de disp do período essa disciplina, 
+                   TSAptosDispProf.clear(); // limpa prof aptos
+                   TodosDisp.remove(disciplina); // remove disciplina de geral (acho que ta errado essa remoção
                }
-               else{  // disciplina não será ministrada
-                   disciplinasCursoPerido.remove(disciplina);
+               else{  // se quantidade de horários aptos for menor que o numero de horas disciplina não será ministrada
+                   disciplinasCursoPerido.remove(disciplina); // remove a disciplina
                    TodosDisp.remove(disciplina);
-                   TSAptosDispProf.clear();
-                   System.out.println("ERRO, TS insuficiente para Disciplina!");
+                   TSAptosDispProf.clear(); // limpa profs
+                   System.out.println("ERRO, TS insuficiente para Disciplina!"); // pirnta pra saber
                }
  
            }
            ProfApto = new ArrayList<Professor>();
            disciplina = new Disciplina();
            
-           return acido;
+           return acido; // retorna o acido para Gene receber
    
     }
     
-    public ArrayList<TimeSlot> TSCurso(int curso){
+    public ArrayList<TimeSlot> TSCurso(int curso){  // método padrão para retorna slots de cada curso
         
         ArrayList<TimeSlot> remover = new ArrayList<TimeSlot>();
         
@@ -406,7 +423,7 @@ public class GerarIndividuo {
         
     }
         
-    public int CursoEscolhido(){
+    public int CursoEscolhido(){ // retorna curso
 
         if(LeituraCSV.CURSO.get(0).getCod() == 1){
             LeituraCSV.CURSO.remove(0);
@@ -424,7 +441,7 @@ public class GerarIndividuo {
         
     }
       
-    public int PeriodoEscolhido(){
+    public int PeriodoEscolhido(){ // retorna periodo
 
         Collections.shuffle(TodosPer);
        int per  = TodosPer.get(0);
@@ -433,7 +450,7 @@ public class GerarIndividuo {
 
 }
     
-    public ArrayList<Integer> preenchePeriodo(){
+    public ArrayList<Integer> preenchePeriodo(){ // preenche array de periodo
         
         ArrayList<Integer> periodo = new ArrayList<Integer>();
         
@@ -444,7 +461,7 @@ public class GerarIndividuo {
         return periodo;
     }
     
-    public void RandTudo(){
+    public void RandTudo(){ // embaralha tudo
         
         Collections.shuffle(TodosProf);
         Collections.shuffle(TodosCur);
